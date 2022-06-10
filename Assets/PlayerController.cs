@@ -13,10 +13,11 @@ public class PlayerController : MonoBehaviour
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
-    Animator animator;
+    public Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     bool canMove = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,12 +47,10 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isMoving", false);
             }
 
-            // Set direction of sprite to movement direction
-            if(movementInput.x < 0) {
-                spriteRenderer.flipX = true;
-            } else if (movementInput.x > 0) {
-                spriteRenderer.flipX = false;
-            }
+        // Set direction of sprite to movement direction
+        animator.SetFloat("Horizontal", movementInput.x);
+        animator.SetFloat("Vertical", movementInput.y);
+        animator.SetFloat("Speed", moveSpeed);
         }
     }
 
@@ -74,6 +73,8 @@ public class PlayerController : MonoBehaviour
             // Can't move if there's no direction to move in
             return false;
         }
+
+
         
     }
 

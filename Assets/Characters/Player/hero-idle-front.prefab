@@ -147,6 +147,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  animator: {fileID: 4661790547088588001}
 --- !u!50 &5547491603472040906
 Rigidbody2D:
   serializedVersion: 4
