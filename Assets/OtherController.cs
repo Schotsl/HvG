@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 using NativeWebSocket;
 
-public class Location {
-    public float x;
-    public float y;
+public class Location
+{
+  public float x;
+  public float y;
 }
 
 public class OtherController : MonoBehaviour
@@ -16,6 +16,26 @@ public class OtherController : MonoBehaviour
 
   async void Start()
   {
+    StartWebsocket();
+  }
+
+
+  async void Update()
+  {
+    try
+    {
+      #if !UNITY_WEBGL || UNITY_EDITOR
+        websocket.DispatchMessageQueue();
+      #endif
+    }
+    catch
+    {
+      StartWebsocket();
+    }
+  }
+
+  async void StartWebsocket()
+  {
     websocket = new WebSocket("wss://hvg-server.deno.dev/v1/socket");
 
     websocket.OnOpen += () => Debug.Log("Connection open!");
@@ -23,33 +43,26 @@ public class OtherController : MonoBehaviour
     websocket.OnClose += (e) => Debug.Log("Connection closed!");
     websocket.OnMessage += (bytes) =>
     {
-        string message = System.Text.Encoding.UTF8.GetString(bytes);
+      string message = System.Text.Encoding.UTF8.GetString(bytes);
 
-        Location location = JsonUtility.FromJson<Location>(message);
-        Vector2 vector = new Vector2(location.x, location.y);
+      Location location = JsonUtility.FromJson<Location>(message);
+      Vector2 vector = new Vector2(location.x, location.y);
 
-        // Get the transform component of the player
-        Transform transform = GetComponent<Transform>();
-        
-        // Update the actual position of the player
-        transform.position = vector;
+      // Get the transform component of the player
+      Transform transform = GetComponent<Transform>();
+
+      // Update the actual position of the player
+      transform.position = vector;
     };
 
     // Keep sending messages at every 0.3s
-    InvokeRepeating("SendWebSocketMessage", 0.0f, 0.3f);
+    InvokeRepeating("SendWebsocket", 0.0f, 0.3f);
 
     // waiting for messages
     await websocket.Connect();
   }
 
-  void Update()
-  {
-    #if !UNITY_WEBGL || UNITY_EDITOR
-        websocket.DispatchMessageQueue();
-    #endif
-  }
-
-  async void SendWebSocketMessage()
+  async void SendWebsocket()
   {
     if (websocket.State == WebSocketState.Open)
     {
