@@ -6,8 +6,10 @@ using NativeWebSocket;
 
 public class Patch
 {
-  public float x;
-  public float y;
+  public float x_speed;
+  public float y_speed;
+  public float x_pos;
+  public float y_pos;
   public string uuid;
 }
 
@@ -50,13 +52,16 @@ public class OtherController : MonoBehaviour
       // Ignore our own updates
       if (patch.uuid != SystemInfo.deviceUniqueIdentifier)
       {
-        Vector2 vector = new Vector2(patch.x, patch.y);
+        Vector2 position = new Vector2(patch.x_pos, patch.y_pos);
+        Vector2 velocity = new Vector2(patch.x_speed, patch.y_speed);
 
-        // Get the transform component of the player
+        // Get the components
         Transform transform = gameObject.GetComponent<Transform>();
+        Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
 
-        // Update the actual position of the player
-        transform.position = vector;
+        // Actually update the position and velocity
+        rigidbody.velocity = velocity;
+        transform.position = position;
       }
     };
 

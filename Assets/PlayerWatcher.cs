@@ -4,19 +4,24 @@ using UnityEngine;
 using NativeWebSocket;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 public class PlayerWatcher : MonoBehaviour
 {
   WebSocket websocket;
 
-  async void OnMove()
+  async void OnMove(InputValue inputValue)
   {
+    Vector2 vector = inputValue.Get<Vector2>();
     Transform transform = GetComponent<Transform>();
-
+    
     Patch patch = new Patch();
 
-    patch.x = transform.position.x;
-    patch.y = transform.position.y;
+    patch.x_pos = transform.position.x;
+    patch.y_pos = transform.position.y;
+
+    patch.x_speed = vector.x;
+    patch.y_speed = vector.y;
     
     patch.uuid = SystemInfo.deviceUniqueIdentifier;
 
