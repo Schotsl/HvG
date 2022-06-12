@@ -1,17 +1,5 @@
-using System;
-
 using UnityEngine;
-
 using NativeWebSocket;
-
-public class Patch
-{
-  public float x_speed;
-  public float y_speed;
-  public float x_pos;
-  public float y_pos;
-  public string uuid;
-}
 
 public class OtherController : MonoBehaviour
 {
@@ -22,13 +10,12 @@ public class OtherController : MonoBehaviour
     StartWebsocket();
   }
 
-
   async void Update()
   {
     try
     {
       #if !UNITY_WEBGL || UNITY_EDITOR
-            websocket.DispatchMessageQueue();
+        websocket.DispatchMessageQueue();
       #endif
     }
     catch
