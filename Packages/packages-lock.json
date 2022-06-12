@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.endel.nativewebsocket": {
-      "version": "file:C:/Users/snnrk/Downloads/NativeWebSocket-master/NativeWebSocket/Assets",
+      "version": "file:../Assets/NativeWebSocket",
       "depth": 0,
       "source": "local",
       "dependencies": {}

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.endel.nativewebsocket": "file:C:/Users/snnrk/Downloads/NativeWebSocket-master/NativeWebSocket/Assets",
+    "com.endel.nativewebsocket": "file:../Assets/NativeWebSocket",
     "com.unity.cinemachine": "2.8.6",
     "com.unity.collab-proxy": "1.15.17",
     "com.unity.feature.2d": "1.0.0",
