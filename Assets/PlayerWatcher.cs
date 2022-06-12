@@ -6,7 +6,7 @@ public class PlayerWatcher : MonoBehaviour
 {
   WebSocket websocket;
 
-  async void Start()
+  void Start()
   {
     StartWebsocket();
   }

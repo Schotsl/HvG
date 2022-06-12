@@ -5,12 +5,12 @@ public class OtherController : MonoBehaviour
 {
   WebSocket websocket;
 
-  async void Start()
+  void Start()
   {
     StartWebsocket();
   }
 
-  async void Update()
+  void Update()
   {
     try
     {
