@@ -63,7 +63,7 @@ public class PlayerWatcher : MonoBehaviour
 
   async void StartWebsocket()
   {
-    websocket = new WebSocket("ws://localhost:8080/v1/socket");
+    websocket = new WebSocket("wss://hvg-server.deno.dev/v1/socket");
 
     websocket.OnOpen += () => Debug.Log("Connection open!");
     websocket.OnError += (e) => Debug.Log("Error! " + e);
