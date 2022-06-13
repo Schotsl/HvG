@@ -32,9 +32,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SystemInfo.deviceType == DeviceType.Handheld) {
-        movementInput = new Vector2(joystick.Horizontal,
-                                        joystick.Vertical);
+        if (SystemInfo.deviceType == DeviceType.Handheld) {
+            movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         }
     }
 
