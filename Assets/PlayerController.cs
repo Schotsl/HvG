@@ -32,9 +32,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+        if(SystemInfo.deviceType == DeviceType.Handheld) {
         movementInput = new Vector2(joystick.Horizontal,
                                         joystick.Vertical);
+        }
     }
 
     private void FixedUpdate() {
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Vertical", movementInput.y);
         animator.SetFloat("Speed", moveSpeed);
         }
+        
     }
 
     private bool TryMove(Vector2 direction) {
@@ -83,9 +85,6 @@ public class PlayerController : MonoBehaviour
             // Can't move if there's no direction to move in
             return false;
         }
-
-
-        
     }
 
     void OnMove(InputValue movementValue) {
