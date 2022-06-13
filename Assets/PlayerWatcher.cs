@@ -28,7 +28,7 @@ public class PlayerWatcher : MonoBehaviour
 
     patch.x_speed = velocity.x;
     patch.y_speed = velocity.y;
-    
+
     patch.uuid = SystemInfo.deviceUniqueIdentifier;
 
     string message = JsonUtility.ToJson(patch);

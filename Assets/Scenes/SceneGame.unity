@@ -9615,6 +9615,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4141534271010604656, guid: 624e26a24a7e8f140b940ea20fde30fc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4971630258270855133, guid: 624e26a24a7e8f140b940ea20fde30fc, type: 3}
       propertyPath: m_Name
       value: Player 2
@@ -13274,6 +13278,10 @@ PrefabInstance:
     - target: {fileID: 1802778872519593505, guid: 81ba70f6c79e72c40a16fcf43e415f1a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4141534271010604656, guid: 81ba70f6c79e72c40a16fcf43e415f1a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4971630258270855133, guid: 81ba70f6c79e72c40a16fcf43e415f1a, type: 3}
       propertyPath: m_Name

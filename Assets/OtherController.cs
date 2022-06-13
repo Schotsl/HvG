@@ -5,13 +5,18 @@ public class OtherController : MonoBehaviour
 {
   WebSocket websocket;
 
+  public float moveSpeed = 1f;
+
+  public Animator animator;
+
   void Start()
   {
     StartWebsocket();
+    animator = GetComponent<Animator>();
   }
 
   void Update()
-  {
+  { 
     try
     {
       #if !UNITY_WEBGL || UNITY_EDITOR
@@ -49,6 +54,19 @@ public class OtherController : MonoBehaviour
         // Actually update the position and velocity
         rigidbody.velocity = velocity;
         transform.position = position;
+
+        //Updates the animation for player 2
+        if(velocity != Vector2.zero){
+          
+          animator.SetBool("isMoving", true);
+        } else {
+          animator.SetBool("isMoving", false);
+        }
+          
+          animator.SetFloat("Horizontal", velocity.x);
+          animator.SetFloat("Vertical", velocity.y);
+          animator.SetFloat("Speed", moveSpeed);
+
       }
     };
 
