@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
+    protected Joystick joystick;
 
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
@@ -22,9 +23,18 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        joystick = FindObjectOfType<Joystick>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+        movementInput = new Vector2(joystick.Horizontal,
+                                        joystick.Vertical);
     }
 
     private void FixedUpdate() {
