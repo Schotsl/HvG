@@ -1,8 +1,12 @@
 public class Patch
 {
-  public float x_speed;
-  public float y_speed;
-  public float x_pos;
-  public float y_pos;
+  public float? q; // x_speed
+  public float? w; // y_speed;
+  public float? e; // x_pos;
+  public float? r; // y_pos;
+}
+
+public class Subscribe
+{
   public string uuid;
 }
