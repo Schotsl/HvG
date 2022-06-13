@@ -45,7 +45,7 @@ public class PlayerWatcher : MonoBehaviour
     }
   }
 
-  async void Update()
+  void Update()
   {
     try
     {
@@ -59,7 +59,7 @@ public class PlayerWatcher : MonoBehaviour
     }
   }
 
-  async void OnJoystick() {
+  void OnJoystick() {
     if (joystickObject.Horizontal != joystickHorizontal || joystickObject.Vertical != joystickVertical) {
       Patch patch = new Patch();
 
@@ -76,7 +76,7 @@ public class PlayerWatcher : MonoBehaviour
     }
   }
 
-  async void OnMove(InputValue inputValue)
+  void OnMove(InputValue inputValue)
   {
     Vector2 velocity = inputValue.Get<Vector2>();
 
