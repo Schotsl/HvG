@@ -7,28 +7,45 @@ public class PlayerWatcher : MonoBehaviour
 {
   WebSocket websocket;
 
-  Animator animator;
-  Transform transform;
-  Rigidbody2D rigidbody;
+  Joystick joystickObject;
+  float joystickVertical;
+  float joystickHorizontal;
 
-  Formatting formatting;
-  JsonSerializerSettings settings;
+  Transform playerTransform;
+
+  Animator otherAnimator;
+  Transform otherTransform;
+  Rigidbody2D otherRigidbody;
+
+  Formatting jsonFormatting;
+  JsonSerializerSettings jsonSettings;
 
   void Start()
   {
     StartWebsocket();
 
-    GameObject other = GameObject.Find("Player 2");
+    playerTransform = GetComponent<Transform>();
 
-    animator = other.GetComponent<Animator>();
-    transform = other.GetComponent<Transform>();
-    rigidbody = other.GetComponent<Rigidbody2D>();
+    joystickObject = FindObjectOfType<Joystick>();
+    joystickVertical = joystickObject.Vertical;
+    joystickHorizontal = joystickObject.Horizontal;
 
-    settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-    formatting = Formatting.None;
+    GameObject otherObject = GameObject.Find("Player 2");
+
+    otherAnimator = otherObject.GetComponent<Animator>();
+    otherTransform = otherObject.GetComponent<Transform>();
+    otherRigidbody = otherObject.GetComponent<Rigidbody2D>();
+
+    jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+    jsonFormatting = Formatting.None;
+
+    // Update the server every 100 seconds
+    if (SystemInfo.deviceType == DeviceType.Handheld) {
+      InvokeRepeating("OnJoystick", 0f, 0.1f);
+    }
   }
 
-  void Update()
+  async void Update()
   {
     try
     {
@@ -42,25 +59,45 @@ public class PlayerWatcher : MonoBehaviour
     }
   }
 
+  async void OnJoystick() {
+    if (joystickObject.Horizontal != joystickHorizontal || joystickObject.Vertical != joystickVertical) {
+      Patch patch = new Patch();
+
+      patch.w = joystickObject.Vertical == 0 ? null : joystickObject.Vertical;
+      patch.q = joystickObject.Horizontal == 0 ? null : joystickObject.Horizontal;
+
+      patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
+      patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
+
+      SendPatch(patch);
+
+      joystickVertical = joystickObject.Vertical;
+      joystickHorizontal = joystickObject.Horizontal;
+    }
+  }
+
   async void OnMove(InputValue inputValue)
   {
+    Vector2 velocity = inputValue.Get<Vector2>();
+
+    Patch patch = new Patch();
+
+    patch.q = velocity.x == 0 ? null : velocity.x;
+    patch.w = velocity.y == 0 ? null : velocity.y;
+    patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
+    patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
+
+    SendPatch(patch);
+  }
+
+  async void SendPatch(Patch patch) {
     // We can abort the update if the WebSocket is closed 
     if (websocket.State != WebSocketState.Open)
     {
       return;
     }
 
-    Vector2 velocity = inputValue.Get<Vector2>();
-    Transform transform = GetComponent<Transform>();
-
-    Patch patch = new Patch();
-
-    patch.q = velocity.x == 0 ? null : velocity.x;
-    patch.w = velocity.y == 0 ? null : velocity.y;
-    patch.e = transform.position.x == 0 ? null : transform.position.x;
-    patch.r = transform.position.y == 0 ? null : transform.position.y;
-
-    string message = JsonConvert.SerializeObject(patch, formatting, settings);
+    string message = JsonConvert.SerializeObject(patch, jsonFormatting, jsonSettings);
     await websocket.SendText(message);
   }
 
@@ -83,20 +120,20 @@ public class PlayerWatcher : MonoBehaviour
       //Updates the animation for Player 2
       if (velocity != Vector2.zero)
       {
-        animator.SetBool("isMoving", true);
+        otherAnimator.SetBool("isMoving", true);
       }
       else
       {
-        animator.SetBool("isMoving", false);
+        otherAnimator.SetBool("isMoving", false);
       }
 
-      animator.SetFloat("Horizontal", velocity.x);
-      animator.SetFloat("Vertical", velocity.y);
-      animator.SetFloat("Speed", 1f);
+      otherAnimator.SetFloat("Horizontal", velocity.x);
+      otherAnimator.SetFloat("Vertical", velocity.y);
+      otherAnimator.SetFloat("Speed", 1f);
 
       // Actually update the position and velocity
-      rigidbody.velocity = velocity;
-      transform.position = position;
+      otherRigidbody.velocity = velocity;
+      otherTransform.position = position;
     };
 
     await websocket.Connect();
