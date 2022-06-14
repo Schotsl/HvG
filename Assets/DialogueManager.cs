@@ -9,6 +9,8 @@ public class DialogueManager : MonoBehaviour
     //https://www.youtube.com/watch?v=_nRzoTzeyxU
     private Queue<string> sentences;
     
+    private bool isTyping;
+    private string completeText;
     public TextMeshProUGUI  CharTxt;
     public TextMeshProUGUI  DialogueTxt;
 
@@ -35,22 +37,34 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void DisplayNextSentence () {
+        if (isTyping == true) {
+            CompleteText();
+            StopAllCoroutines();
+            isTyping = false;
+            return;
+        }        
         if (sentences.Count == 0){
             EndDialogue();
             return;
         }
         string sentence = sentences.Dequeue();
-        StopAllCoroutines();
+        completeText = sentence;
         StartCoroutine(TypeSentence(sentence));
         Debug.Log(sentence);
     }
 
     IEnumerator TypeSentence (string sentence) {
+        isTyping = true;
         DialogueTxt.text = "";
         foreach(char letter in sentence.ToCharArray()) {
             DialogueTxt.text += letter;
             yield return new WaitForSeconds(0.05f);
         }
+        isTyping = false;
+    }
+
+    private void CompleteText(){
+        DialogueTxt.text = completeText;
     }
 
     void EndDialogue (){
