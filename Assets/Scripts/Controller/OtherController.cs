@@ -37,7 +37,7 @@ public class OtherController : MonoBehaviour
   }
 
   private void MoveOther(Vector2 velocity, Vector2 position) {
-    bool isMoving = velocity == Vector2.zero;
+    bool isMoving = velocity != Vector2.zero;
 
     otherAnimator.SetFloat("Horizontal", velocity.x);
     otherAnimator.SetFloat("Vertical", velocity.y);
