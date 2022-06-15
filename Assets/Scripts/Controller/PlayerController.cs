@@ -58,12 +58,10 @@ public class PlayerController : MonoBehaviour
         PauseOptions.SetActive(false);
         GamePaused = false;
         PauseUI.SetActive(GamePaused);
-        Time.timeScale = 1f;
     }
     void Pause(){
         GamePaused = true;
         PauseUI.SetActive(GamePaused);
-        Time.timeScale = 0f;
     }
     // Update is called once per frame
     // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
