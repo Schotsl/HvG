@@ -27,7 +27,8 @@ public class PauseController : MonoBehaviour
 
     void UpdateUi(bool paused) {
         PauseUI.SetActive(Globals.isPaused);
-        PauseMain.SetActive(!Globals.isPaused);
-        PauseOptions.SetActive(Globals.isPaused); 
+        PauseMain.SetActive(Globals.isPaused);
+
+        PauseOptions.SetActive(false); 
     }
 }
