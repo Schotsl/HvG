@@ -21,7 +21,7 @@ public class PauseController : MonoBehaviour
 
     public void Toggle() {
         Globals.isPaused = !Globals.isPaused;
-        
+
         UpdateUi(Globals.isPaused);
     }
 

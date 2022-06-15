@@ -13422,7 +13422,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1635513, y: 1}
+    m_SensorSize: {x: 1.3333334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -18645,6 +18645,7 @@ GameObject:
   - component: {fileID: 2118108414}
   - component: {fileID: 2118108413}
   - component: {fileID: 2118108415}
+  - component: {fileID: 2118108416}
   m_Layer: 5
   m_Name: PauseScreen
   m_TagString: Untagged
@@ -18785,6 +18786,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b253192b57906f4ea74d7ee1744a09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2118108416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118108408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b27697969294c33a2178286a4c3001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseUI: {fileID: 2118108408}
+  PauseMain: {fileID: 263229721}
+  PauseOptions: {fileID: 1269402581}
 --- !u!1001 &6966184852560714085
 PrefabInstance:
   m_ObjectHideFlags: 0
