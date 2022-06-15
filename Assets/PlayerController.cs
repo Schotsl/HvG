@@ -38,9 +38,8 @@ public class PlayerController : MonoBehaviour
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         }
 
-        if(triggering) {
-            Debug.Log("Player is interacting with " + triggerNpc);
-        }
+        // if(triggering) {
+        // }
     }
 
     private void FixedUpdate() {
@@ -103,14 +102,18 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    void OnTriggerEnter(Collider other) {
+
+    void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "NPC") {
             triggering = true;
             triggerNpc = other.gameObject;
+            Debug.Log("Player is interacting with " + triggerNpc);
+            animator.SetBool("isMoving", false);
+            FindObjectOfType<DialogueTrigger>().TriggerDialogue();
         }
     }
 
-    void OnTriggerExit(Collider other) {
+    void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "NPC") {
             triggering = false;
             triggerNpc = null;

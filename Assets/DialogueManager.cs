@@ -29,6 +29,8 @@ public class DialogueManager : MonoBehaviour
 
         sentences.Clear();
 
+        FindObjectOfType<PlayerController>().LockMovement();
+
         foreach (string sentence in dialogue.sentences) {
             sentences.Enqueue(sentence);
         }
@@ -45,6 +47,7 @@ public class DialogueManager : MonoBehaviour
         }        
         if (sentences.Count == 0){
             EndDialogue();
+            FindObjectOfType<PlayerController>().UnlockMovement();
             return;
         }
         string sentence = sentences.Dequeue();
