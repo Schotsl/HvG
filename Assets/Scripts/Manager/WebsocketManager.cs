@@ -77,11 +77,11 @@ public class WebsocketManager : MonoBehaviour
         await Globals.websocket.SendText(json);
     }
 
-    private async void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         if (Globals.websocket != null)
         {
-            await Globals.websocket.Close();
+            Globals.websocket.CancelConnection();
         }
     }
 }
