@@ -20,7 +20,9 @@ public class HostWatcher : MonoBehaviour
 
     if (websocketScript.websocket == null) {
       websocketScript.StartWebsocket();
-    };
+    } else {
+      websocketScript.ConnectWebsocket();
+    }
 
     websocketScript.websocket.OnOpen += WebsocketOpen;
     websocketScript.websocket.OnMessage += WebsocketResponse;
@@ -29,7 +31,7 @@ public class HostWatcher : MonoBehaviour
   private void WebsocketOpen() {
 
   // Share the short code with the server so someone else can subscribe to it
-          Action action = new Action();
+      Action action = new Action();
 
       action.code = hostShort.text;
       action.action = "hosting";
@@ -39,7 +41,7 @@ public class HostWatcher : MonoBehaviour
 
   private void WebsocketResponse(byte[] bytes) {
     // Once a partner has been found we can go to the next scene
-        SceneManager.LoadScene(sceneName:"SceneGame");
+    SceneManager.LoadScene(sceneName:"SceneGame");
   }
 
   private string GenerateCode(int length)

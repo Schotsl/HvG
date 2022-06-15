@@ -17,7 +17,9 @@ public class JoinWatcher : MonoBehaviour
 
     if (websocketScript.websocket == null) {
       websocketScript.StartWebsocket();
-    };
+    } else {
+      websocketScript.ConnectWebsocket();
+    }
 
     websocketScript.websocket.OnMessage += (bytes) =>
     {
