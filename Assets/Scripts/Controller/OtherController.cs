@@ -30,7 +30,10 @@ public class OtherController : MonoBehaviour
     string message = System.Text.Encoding.UTF8.GetString(bytes);
     Patch patch = JsonConvert.DeserializeObject<Patch>(message);
 
-    Vector2 position = new Vector2(patch.e ?? 0, patch.r ?? 0);
+    int currentX = (int)otherTransform.position.x;
+    int currentY = (int)otherTransform.position.y;
+
+    Vector2 position = new Vector2(patch.e ?? currentX, patch.r ?? currentY);
     Vector2 velocity = new Vector2(patch.q ?? 0, patch.w ?? 0);
 
     MoveOther(velocity, position);
