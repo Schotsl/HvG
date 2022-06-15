@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public static bool GamePaused = false;
 
     public GameObject PauseUI;
+    public GameObject PauseMain;
+    public GameObject PauseOptions;
 
     private PlayerInputActions playerInputActions;
 
@@ -51,6 +53,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void Resume(){
+        PauseMain.SetActive(true);
+        PauseOptions.SetActive(false);
         GamePaused = false;
         PauseUI.SetActive(GamePaused);
         Time.timeScale = 1f;

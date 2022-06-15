@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4971630258270855133}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0683, y: 0.0379, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -149,6 +149,9 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   animator: {fileID: 4661790547088588001}
+  PauseUI: {fileID: 0}
+  PauseMain: {fileID: 0}
+  PauseOptions: {fileID: 0}
 --- !u!50 &5547491603472040906
 Rigidbody2D:
   serializedVersion: 4
