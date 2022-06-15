@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
         GamePaused = false;
     }
 
+    //Pause menu is van https://www.youtube.com/watch?v=JivuXdrIHK0&t=431s
     void Resume(){
         PauseMain.SetActive(true);
         PauseOptions.SetActive(false);
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0f;
     }
     // Update is called once per frame
+    // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
     void Update()
     {
         if (SystemInfo.deviceType == DeviceType.Handheld) {
