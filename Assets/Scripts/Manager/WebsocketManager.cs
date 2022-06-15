@@ -4,6 +4,10 @@ using Newtonsoft.Json;
 
 public class WebsocketManager : MonoBehaviour
 {
+    // Used https://github.com/endel/NativeWebSocket
+
+    // Used https://medium.com/unity-nodejs/websocket-client-server-unity-nodejs-e33604c6a006
+
     Formatting jsonFormatting;
     JsonSerializerSettings jsonSettings;
 
