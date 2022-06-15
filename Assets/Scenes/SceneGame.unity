@@ -475,7 +475,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 235428004}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2118108415}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &235428004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,7 +866,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 446011441}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2118108415}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: BackToMain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &446011441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11490,7 +11514,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.3333334, y: 1}
+    m_SensorSize: {x: 2.1635513, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -15769,7 +15793,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2118108409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15902,7 +15926,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118108408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d709fcff9ef92624f9c75036addc0757, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b253192b57906f4ea74d7ee1744a09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6966184852560714085
@@ -15960,6 +15984,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5122807389833562924, guid: 81ba70f6c79e72c40a16fcf43e415f1a, type: 3}
+      propertyPath: PauseUI
+      value: 
+      objectReference: {fileID: 2118108408}
     - target: {fileID: 8412079363587722491, guid: 81ba70f6c79e72c40a16fcf43e415f1a, type: 3}
       propertyPath: m_Enabled
       value: 0

@@ -21,6 +21,24 @@ public class PlayerController : MonoBehaviour
 
     private GameObject triggerNpc;
     private bool triggering;
+    public static bool GamePaused = false;
+
+    public GameObject PauseUI;
+
+    private PlayerInputActions playerInputActions;
+
+    private void Awake() {
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable() {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable() {
+        playerInputActions.Disable();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,19 +47,36 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        GamePaused = false;
     }
 
+    void Resume(){
+        GamePaused = false;
+        PauseUI.SetActive(GamePaused);
+        Time.timeScale = 1f;
+    }
+    void Pause(){
+        GamePaused = true;
+        PauseUI.SetActive(GamePaused);
+        Time.timeScale = 0f;
+    }
     // Update is called once per frame
     void Update()
     {
         if (SystemInfo.deviceType == DeviceType.Handheld) {
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         }
-
-        // if(triggering) {
-        // }
+        if(playerInputActions.Player.PauseKey.triggered){
+            Debug.Log("Triggered");
+            if(GamePaused){
+                Resume();
+                Debug.Log("Resuming game");
+            } else {
+                Pause();
+                Debug.Log("Pausing game");
+            }
+        }
     }
-
     private void FixedUpdate() {
         if(canMove) {
             // If movement input is not 0, try to move

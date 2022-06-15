@@ -10,4 +10,7 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void BackToMain(){
+        SceneManager.LoadScene(sceneName:"SceneStart");
+    }
 }
