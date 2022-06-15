@@ -27,7 +27,7 @@ public class JoinWatcher : MonoBehaviour
 
       if (patch.success)
       {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(sceneName:"SceneGame");
       }
     };
   }
