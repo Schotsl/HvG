@@ -10609,6 +10609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a9fa7a5de2fe64a80d7cb8b9c4f037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueObject: {fileID: 799310548}
   CharTxt: {fileID: 1655401893}
   DialogueTxt: {fileID: 1776934360}
   animator: {fileID: 1781781486}

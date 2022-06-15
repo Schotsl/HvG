@@ -11,8 +11,11 @@ public class DialogueManager : MonoBehaviour
     
     private bool isTyping;
     private string completeText;
-    public TextMeshProUGUI  CharTxt;
-    public TextMeshProUGUI  DialogueTxt;
+
+    public GameObject dialogueObject;
+
+    public TextMeshProUGUI CharTxt;
+    public TextMeshProUGUI DialogueTxt;
 
     public Animator animator;
     void Start()
@@ -22,7 +25,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue (Dialogue dialogue) {
         Debug.Log("Starting conversation with " + dialogue.name);
-
+        dialogueObject.SetActive(true);
         animator.SetBool("isOpen", true);
 
         CharTxt.text = dialogue.name;
