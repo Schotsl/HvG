@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue (Dialogue dialogue) {
+        if(Globals.triggering) {
         dialogueObject.SetActive(true);
 
         animator.SetBool("isOpen", true);
@@ -41,6 +42,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         DisplayNextSentence();
+        }
     }
 
     public void DisplayNextSentence () {

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     private GameObject triggerNpc;
+    private GameObject previousNpc;
 
     private PlayerInputActions playerInputActions;
 
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        Globals.triggering = false;
     }
 
     // Update is called once per frame
@@ -54,6 +56,15 @@ public class PlayerController : MonoBehaviour
 
         if(playerInputActions.Player.PauseKey.triggered){
             pauseController.Toggle();
+        }
+        if (Globals.triggering) {
+            triggerNpc.transform.GetChild(0).gameObject.SetActive(true);
+            previousNpc = triggerNpc;
+        } else {
+            if (previousNpc != null){
+                previousNpc.transform.GetChild(0).gameObject.SetActive(false);
+                previousNpc = null;
+            } 
         }
     }
     private void FixedUpdate() {
@@ -111,17 +122,16 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "NPC") {
-            // triggering = true;
+            Globals.triggering = true;
             triggerNpc = other.gameObject;
 
             animator.SetBool("isMoving", false);
-            triggerNpc.GetComponent<DialogueTrigger>().TriggerDialogue();
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "NPC") {
-            // triggering = false;
+            Globals.triggering = false;
             triggerNpc = null;
         }
     }
