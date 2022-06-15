@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
 
     private GameObject triggerNpc;
-    private bool triggering;
+    // private bool triggering;
     public static bool GamePaused = false;
 
     public GameObject PauseUI;
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "NPC") {
-            triggering = true;
+            // triggering = true;
             triggerNpc = other.gameObject;
 
             animator.SetBool("isMoving", false);
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "NPC") {
-            triggering = false;
+            // triggering = false;
             triggerNpc = null;
         }
     }

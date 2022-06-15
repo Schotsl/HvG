@@ -42,6 +42,9 @@ public class HostWatcher : MonoBehaviour
   private void WebsocketResponse(byte[] bytes) {
     // Once a partner has been found we can go to the next scene
     SceneManager.LoadScene(sceneName:"SceneGame");
+
+    // Stop ourself from triggering this function again
+    websocketScript.websocket.OnMessage -= WebsocketResponse;
   }
 
   private string GenerateCode(int length)

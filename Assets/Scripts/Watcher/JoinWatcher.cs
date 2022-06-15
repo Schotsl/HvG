@@ -21,18 +21,24 @@ public class JoinWatcher : MonoBehaviour
       websocketScript.ConnectWebsocket();
     }
 
-    websocketScript.websocket.OnMessage += (bytes) =>
-    {
-      // Transform the JSON into a patch so we can validate the success
-      string message = System.Text.Encoding.UTF8.GetString(bytes);
-      Response patch = JsonConvert.DeserializeObject<Response>(message);
-
-      if (patch.success)
-      {
-        SceneManager.LoadScene(sceneName:"SceneGame");
-      }
-    };
+    websocketScript.websocket.OnMessage += WebsocketResponse;
   }
+
+  private void WebsocketResponse(byte[] bytes) {
+    // Transform the JSON into a patch so we can validate the success
+    string message = System.Text.Encoding.UTF8.GetString(bytes);
+    Response patch = JsonConvert.DeserializeObject<Response>(message);
+
+    if (patch.success)
+    {
+      // Once a partner has been found we can go to the next scene
+      SceneManager.LoadScene(sceneName:"SceneGame");
+
+      // Stop ourself from triggering this function again
+      websocketScript.websocket.OnMessage -= WebsocketResponse;
+    }
+  }
+
 
   public void JoinGame()
   {
