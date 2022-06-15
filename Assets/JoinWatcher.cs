@@ -16,7 +16,6 @@ public class JoinWatcher : MonoBehaviour
     websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
 
     websocketScript.StartWebsocket();
-    Debug.Log("Asdf");
 
     websocketScript.websocket.OnMessage += (bytes) =>
     {

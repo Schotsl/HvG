@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     bool canMove = true;
 
+    private GameObject triggerNpc;
+    private bool triggering;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,10 @@ public class PlayerController : MonoBehaviour
     {
         if (SystemInfo.deviceType == DeviceType.Handheld) {
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
+        }
+
+        if(triggering) {
+            Debug.Log("Player is interacting with " + triggerNpc);
         }
     }
 
@@ -89,11 +95,25 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue) {
         movementInput = movementValue.Get<Vector2>();
     }
-        public void LockMovement() {
+    public void LockMovement() {
         canMove = false;
     }
 
     public void UnlockMovement() {
         canMove = true;
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if(other.tag == "NPC") {
+            triggering = true;
+            triggerNpc = other.gameObject;
+        }
+    }
+
+    void OnTriggerExit(Collider other) {
+        if(other.tag == "NPC") {
+            triggering = false;
+            triggerNpc = null;
+        }
     }
 }
