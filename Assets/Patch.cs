@@ -5,8 +5,3 @@ public class Patch
   public float? e; // x_pos;
   public float? r; // y_pos;
 }
-
-public class Subscribe
-{
-  public string uuid;
-}

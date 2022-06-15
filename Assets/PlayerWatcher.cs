@@ -1,28 +1,26 @@
 using UnityEngine;
-using NativeWebSocket;
 using UnityEngine.InputSystem;
 using Newtonsoft.Json;
 
 public class PlayerWatcher : MonoBehaviour
 {
-  WebSocket websocket;
+  private GameObject websocketObject;
+  private WebsocketWatcher websocketScript;
 
-  Joystick joystickObject;
-  float joystickVertical;
-  float joystickHorizontal;
+  private Joystick joystickObject;
+  private float joystickVertical;
+  private float joystickHorizontal;
 
-  Transform playerTransform;
+  private Transform playerTransform;
 
-  Animator otherAnimator;
-  Transform otherTransform;
-  Rigidbody2D otherRigidbody;
+  private Animator otherAnimator;
+  private Transform otherTransform;
+  private Rigidbody2D otherRigidbody;
 
-  Formatting jsonFormatting;
-  JsonSerializerSettings jsonSettings;
-
-  void Start()
+  private void Start()
   {
-    StartWebsocket();
+    websocketObject = GameObject.Find("WebsocketWatcher");
+    websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
 
     playerTransform = GetComponent<Transform>();
 
@@ -36,30 +34,45 @@ public class PlayerWatcher : MonoBehaviour
     otherTransform = otherObject.GetComponent<Transform>();
     otherRigidbody = otherObject.GetComponent<Rigidbody2D>();
 
-    jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-    jsonFormatting = Formatting.None;
-
     // Update the server every 100 seconds
     if (SystemInfo.deviceType == DeviceType.Handheld) {
       InvokeRepeating("OnJoystick", 0f, 0.1f);
     }
+
+    // If the developer skipped the host screen they won't have a websocket
+    if (websocketScript.websocket != null) {
+      // Listen for messages from the server
+      websocketScript.websocket.OnMessage += (bytes) =>
+      {
+        string message = System.Text.Encoding.UTF8.GetString(bytes);
+
+        Patch patch = JsonConvert.DeserializeObject<Patch>(message);
+
+        Vector2 position = new Vector2(patch.e ?? 0, patch.r ?? 0);
+        Vector2 velocity = new Vector2(patch.q ?? 0, patch.w ?? 0);
+
+        //Updates the animation for Player 2
+        if (velocity != Vector2.zero)
+        {
+          otherAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+          otherAnimator.SetBool("isMoving", false);
+        }
+
+        otherAnimator.SetFloat("Horizontal", velocity.x);
+        otherAnimator.SetFloat("Vertical", velocity.y);
+        otherAnimator.SetFloat("Speed", 1f);
+
+        // Actually update the position and velocity
+        otherRigidbody.velocity = velocity;
+        otherTransform.position = position;
+      };
+    };
   }
 
-  void Update()
-  {
-    try
-    {
-      #if !UNITY_WEBGL || UNITY_EDITOR
-        websocket.DispatchMessageQueue();
-      #endif
-    }
-    catch
-    {
-      StartWebsocket();
-    }
-  }
-
-  void OnJoystick() {
+  private void OnJoystick() {
     if (joystickObject.Horizontal != joystickHorizontal || joystickObject.Vertical != joystickVertical) {
       Patch patch = new Patch();
 
@@ -69,14 +82,14 @@ public class PlayerWatcher : MonoBehaviour
       patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
       patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
 
-      SendPatch(patch);
+      websocketScript.SendWebsocket(patch);
 
       joystickVertical = joystickObject.Vertical;
       joystickHorizontal = joystickObject.Horizontal;
     }
   }
 
-  void OnMove(InputValue inputValue)
+  private void OnMove(InputValue inputValue)
   {
     Vector2 velocity = inputValue.Get<Vector2>();
 
@@ -87,60 +100,6 @@ public class PlayerWatcher : MonoBehaviour
     patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
     patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
 
-    SendPatch(patch);
-  }
-
-  async void SendPatch(Patch patch) {
-    // We can abort the update if the WebSocket is closed 
-    if (websocket.State != WebSocketState.Open)
-    {
-      return;
-    }
-
-    string message = JsonConvert.SerializeObject(patch, jsonFormatting, jsonSettings);
-    await websocket.SendText(message);
-  }
-
-  async void StartWebsocket()
-  {
-    websocket = new WebSocket("wss://hvg-server.deno.dev/v1/socket");
-
-    websocket.OnOpen += () => Debug.Log("Connection open!");
-    websocket.OnError += (e) => Debug.Log("Error! " + e);
-    websocket.OnClose += (e) => Debug.Log("Connection closed!");
-    websocket.OnMessage += (bytes) =>
-    {
-      string message = System.Text.Encoding.UTF8.GetString(bytes);
-
-      Patch patch = JsonConvert.DeserializeObject<Patch>(message);
-
-      Vector2 position = new Vector2(patch.e ?? 0, patch.r ?? 0);
-      Vector2 velocity = new Vector2(patch.q ?? 0, patch.w ?? 0);
-
-      //Updates the animation for Player 2
-      if (velocity != Vector2.zero)
-      {
-        otherAnimator.SetBool("isMoving", true);
-      }
-      else
-      {
-        otherAnimator.SetBool("isMoving", false);
-      }
-
-      otherAnimator.SetFloat("Horizontal", velocity.x);
-      otherAnimator.SetFloat("Vertical", velocity.y);
-      otherAnimator.SetFloat("Speed", 1f);
-
-      // Actually update the position and velocity
-      otherRigidbody.velocity = velocity;
-      otherTransform.position = position;
-    };
-
-    await websocket.Connect();
-  }
-
-  private async void OnApplicationQuit()
-  {
-    await websocket.Close();
+    websocketScript.SendWebsocket(patch);
   }
 }
