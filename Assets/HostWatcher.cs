@@ -18,8 +18,10 @@ public class HostWatcher : MonoBehaviour
     hostShort = GameObject.Find("HostText").GetComponent<TextMeshProUGUI>();
     hostShort.text = GenerateCode(5);
 
-    websocketScript.StartWebsocket();
-    
+    if (websocketScript.websocket == null) {
+      websocketScript.StartWebsocket();
+    };
+
     websocketScript.websocket.OnOpen += WebsocketOpen;
     websocketScript.websocket.OnMessage += WebsocketResponse;
   }
