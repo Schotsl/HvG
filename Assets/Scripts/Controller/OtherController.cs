@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class OtherController : MonoBehaviour
 {
   private GameObject websocketObject;
-  private WebsocketWatcher websocketScript;
+  private WebsocketManager websocketScript;
 
   private Animator otherAnimator;
   private Transform otherTransform;
@@ -13,8 +13,8 @@ public class OtherController : MonoBehaviour
 
   private void Start()
   {
-    websocketObject = GameObject.Find("WebsocketWatcher");
-    websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
+    websocketObject = GameObject.Find("WebsocketManager");
+    websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
     otherAnimator = GetComponent<Animator>();
     otherTransform = GetComponent<Transform>();

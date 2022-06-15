@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class PlayerWatcher : MonoBehaviour
 {
   private GameObject websocketObject;
-  private WebsocketWatcher websocketScript;
+  private WebsocketManager websocketScript;
 
   private Joystick joystickObject;
   private float joystickVertical;
@@ -15,8 +15,8 @@ public class PlayerWatcher : MonoBehaviour
 
   private void Start()
   {
-    websocketObject = GameObject.Find("WebsocketWatcher");
-    websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
+    websocketObject = GameObject.Find("WebsocketManager");
+    websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
     playerTransform = GetComponent<Transform>();
 

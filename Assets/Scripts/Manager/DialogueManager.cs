@@ -6,7 +6,8 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    //https://www.youtube.com/watch?v=_nRzoTzeyxU
+    // Made using https://www.youtube.com/watch?v=_nRzoTzeyxU
+
     private Queue<string> sentences;
     
     private bool isTyping;
@@ -14,21 +15,22 @@ public class DialogueManager : MonoBehaviour
 
     public GameObject dialogueObject;
 
-    public TextMeshProUGUI CharTxt;
-    public TextMeshProUGUI DialogueTxt;
+    public TextMeshProUGUI dialogueName;
+    public TextMeshProUGUI dialogueContent;
 
     public Animator animator;
+
     void Start()
     {
         sentences = new Queue<string>();
     }
 
     public void StartDialogue (Dialogue dialogue) {
-        Debug.Log("Starting conversation with " + dialogue.name);
         dialogueObject.SetActive(true);
+
         animator.SetBool("isOpen", true);
 
-        CharTxt.text = dialogue.name;
+        dialogueName.text = dialogue.name;
 
         sentences.Clear();
 
@@ -56,25 +58,23 @@ public class DialogueManager : MonoBehaviour
         string sentence = sentences.Dequeue();
         completeText = sentence;
         StartCoroutine(TypeSentence(sentence));
-        Debug.Log(sentence);
     }
 
     IEnumerator TypeSentence (string sentence) {
         isTyping = true;
-        DialogueTxt.text = "";
+        dialogueContent.text = "";
         foreach(char letter in sentence.ToCharArray()) {
-            DialogueTxt.text += letter;
+            dialogueContent.text += letter;
             yield return new WaitForSeconds(0.05f);
         }
         isTyping = false;
     }
 
     private void CompleteText(){
-        DialogueTxt.text = completeText;
+        dialogueContent.text = completeText;
     }
 
     void EndDialogue (){
-        Debug.Log("End of Conversation");
         animator.SetBool("isOpen", false);
     }
 }

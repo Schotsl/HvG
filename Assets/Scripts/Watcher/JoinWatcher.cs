@@ -8,12 +8,12 @@ public class JoinWatcher : MonoBehaviour
   public GameObject inputObject;
 
   private GameObject websocketObject;
-  private WebsocketWatcher websocketScript;
+  private WebsocketManager websocketScript;
 
   private void Start()
   {
-    websocketObject = GameObject.Find("WebsocketWatcher");
-    websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
+    websocketObject = GameObject.Find("WebsocketManager");
+    websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
     if (websocketScript.websocket == null) {
       websocketScript.StartWebsocket();

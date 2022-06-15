@@ -7,12 +7,12 @@ public class HostWatcher : MonoBehaviour
   private TextMeshProUGUI hostShort;
 
   private GameObject websocketObject;
-  private WebsocketWatcher websocketScript;
+  private WebsocketManager websocketScript;
 
   private void Start()
   {
-    websocketObject = GameObject.Find("WebsocketWatcher");
-    websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
+    websocketObject = GameObject.Find("WebsocketManager");
+    websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
     // Generate a short code and show it too the user
     hostShort = GameObject.Find("HostText").GetComponent<TextMeshProUGUI>();

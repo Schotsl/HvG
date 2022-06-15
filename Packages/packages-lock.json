@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.endel.nativewebsocket": {
-      "version": "file:../Assets/NativeWebSocket",
+      "version": "file:NativeWebSocket",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {}
     },
     "com.unity.2d.animation": {

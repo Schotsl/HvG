@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
         if(other.tag == "NPC") {
             triggering = true;
             triggerNpc = other.gameObject;
-            Debug.Log("Player is interacting with " + triggerNpc);
+
             animator.SetBool("isMoving", false);
             triggerNpc.GetComponent<DialogueTrigger>().TriggerDialogue();
         }

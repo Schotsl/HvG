@@ -2,7 +2,7 @@ using UnityEngine;
 using NativeWebSocket;
 using Newtonsoft.Json;
 
-public class WebsocketWatcher : MonoBehaviour
+public class WebsocketManager : MonoBehaviour
 {
     Formatting jsonFormatting;
     JsonSerializerSettings jsonSettings;
