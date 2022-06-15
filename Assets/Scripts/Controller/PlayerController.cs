@@ -11,21 +11,14 @@ public class PlayerController : MonoBehaviour
     public ContactFilter2D movementFilter;
     protected Joystick joystick;
 
+    PauseController pauseController;
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     public Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
-    bool canMove = true;
-
     private GameObject triggerNpc;
-    // private bool triggering;
-    public static bool GamePaused = false;
-
-    public GameObject PauseUI;
-    public GameObject PauseMain;
-    public GameObject PauseOptions;
 
     private PlayerInputActions playerInputActions;
 
@@ -41,28 +34,16 @@ public class PlayerController : MonoBehaviour
         playerInputActions.Disable();
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
+        pauseController = GetComponent<PauseController>();
         joystick = FindObjectOfType<Joystick>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        GamePaused = false;
     }
 
-    //Pause menu is van https://www.youtube.com/watch?v=JivuXdrIHK0&t=431s
-    void Resume(){
-        PauseMain.SetActive(true);
-        PauseOptions.SetActive(false);
-        GamePaused = false;
-        PauseUI.SetActive(GamePaused);
-    }
-    void Pause(){
-        GamePaused = true;
-        PauseUI.SetActive(GamePaused);
-    }
     // Update is called once per frame
     // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
     void Update()
@@ -70,19 +51,13 @@ public class PlayerController : MonoBehaviour
         if (SystemInfo.deviceType == DeviceType.Handheld) {
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         }
+
         if(playerInputActions.Player.PauseKey.triggered){
-            Debug.Log("Triggered");
-            if(GamePaused){
-                Resume();
-                Debug.Log("Resuming game");
-            } else {
-                Pause();
-                Debug.Log("Pausing game");
-            }
+            pauseController.Toggle();
         }
     }
     private void FixedUpdate() {
-        if(canMove) {
+        if (!Globals.isPaused && !Globals.isDialoguing) {
             // If movement input is not 0, try to move
             if(movementInput != Vector2.zero){
                 
@@ -133,14 +108,6 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue) {
         movementInput = movementValue.Get<Vector2>();
     }
-    public void LockMovement() {
-        canMove = false;
-    }
-
-    public void UnlockMovement() {
-        canMove = true;
-    }
-
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "NPC") {

@@ -10,6 +10,7 @@ public class PlayerWatcher : MonoBehaviour
   private Joystick joystickObject;
   private float joystickVertical;
   private float joystickHorizontal;
+  private bool wasAllowed;
 
   private Transform playerTransform;
 
@@ -31,7 +32,10 @@ public class PlayerWatcher : MonoBehaviour
   }
 
   private void OnJoystick() {
-    if (joystickObject.Horizontal != joystickHorizontal || joystickObject.Vertical != joystickVertical) {
+    bool isAllowed = !Globals.isDialoguing && !Globals.isPaused;
+    bool isChanging = joystickObject.Horizontal != joystickHorizontal || joystickObject.Vertical != joystickVertical;
+
+    if (isAllowed && isChanging) {
       Patch patch = new Patch();
 
       patch.w = joystickObject.Vertical == 0 ? null : joystickObject.Vertical;
@@ -49,15 +53,27 @@ public class PlayerWatcher : MonoBehaviour
 
   private void OnMove(InputValue inputValue)
   {
-    Vector2 velocity = inputValue.Get<Vector2>();
+    bool isAllowed = !Globals.isDialoguing && !Globals.isPaused;
+    bool isChanged = isAllowed != wasAllowed;
 
-    Patch patch = new Patch();
+    if (isAllowed || isChanged) { 
+      Patch patch = new Patch();
 
-    patch.q = velocity.x == 0 ? null : velocity.x;
-    patch.w = velocity.y == 0 ? null : velocity.y;
-    patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
-    patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
+      Vector2 velocity = !isAllowed && isChanged ? Vector2.zero : inputValue.Get<Vector2>();
 
-    websocketScript.SendWebsocket(patch);
+      // patch.q = velocity.x == 0 ? null : velocity.x;
+      // patch.w = velocity.y == 0 ? null : velocity.y;
+      // patch.e = playerTransform.position.x == 0 ? null : playerTransform.position.x;
+      // patch.r = playerTransform.position.y == 0 ? null : playerTransform.position.y;
+
+      patch.q = velocity.x;
+      patch.w = velocity.y;
+      patch.e = playerTransform.position.x;
+      patch.r = playerTransform.position.y;
+
+      websocketScript.SendWebsocket(patch);
+
+      wasAllowed = isAllowed;
+    }
   }
 }
