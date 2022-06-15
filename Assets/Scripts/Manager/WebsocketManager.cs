@@ -14,6 +14,8 @@ public class WebsocketManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("<color=orange>[WebsocketManager]</color> Mounting websocket");
+
         jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
         jsonFormatting = Formatting.None;
     }
@@ -29,6 +31,8 @@ public class WebsocketManager : MonoBehaviour
 
     async public void StartWebsocket()
     {   
+        Debug.Log("<color=orange>[WebsocketManager]</color> Starting websocket");
+
         Globals.websocket = new WebSocket("wss://hvg-server.deno.dev/v1/socket");
 
         Globals.websocket.OnOpen += OpenWebsocket;
@@ -38,16 +42,22 @@ public class WebsocketManager : MonoBehaviour
         await Globals.websocket.Connect();
     }
 
+    async public void ConnectWebsocket() {
+        Debug.Log("<color=orange>[WebsocketManager]</color> Restoring websocket");
+
+        await Globals.websocket.Connect();
+    }
+
     private void OpenWebsocket() {
-        Debug.Log("Connection open!");
+        Debug.Log("<color=orange>[WebsocketManager]</color> Connection has been opened");
     }
 
     private void ErrorWebsocket(string error) {
-        Debug.Log("Error: " + error);
+        Debug.Log("<color=orange>[WebsocketManager]</color> Connection error occurred" + error);
     }
 
     private void CloseWebsocket(WebSocketCloseCode error) {
-        Debug.Log("Connection closed!");
+        Debug.Log("<color=orange>[WebsocketManager]</color> Connection has been closed");
     }
 
     async public void SendWebsocket(object data)
