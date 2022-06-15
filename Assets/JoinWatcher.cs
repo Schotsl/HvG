@@ -15,7 +15,9 @@ public class JoinWatcher : MonoBehaviour
     websocketObject = GameObject.Find("WebsocketWatcher");
     websocketScript = websocketObject.GetComponent<WebsocketWatcher>();
 
-    websocketScript.StartWebsocket();
+    if (websocketScript.websocket == null) {
+      websocketScript.StartWebsocket();
+    };
 
     websocketScript.websocket.OnMessage += (bytes) =>
     {
