@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
 
     private GameObject triggerNpc;
-    // private bool triggering;
+
+    private GameObject previousNpc;
     public static bool GamePaused = false;
 
     public GameObject PauseUI;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         GamePaused = false;
+        Globals.triggering = false;
     }
 
     //Pause menu is van https://www.youtube.com/watch?v=JivuXdrIHK0&t=431s
@@ -81,6 +83,15 @@ public class PlayerController : MonoBehaviour
                 Pause();
                 Debug.Log("Pausing game");
             }
+        }
+        if (Globals.triggering) {
+            triggerNpc.transform.GetChild(0).gameObject.SetActive(true);
+            previousNpc = triggerNpc;
+        } else {
+            if (previousNpc != null){
+                previousNpc.transform.GetChild(0).gameObject.SetActive(false);
+                previousNpc = null;
+            } 
         }
     }
     private void FixedUpdate() {
@@ -146,17 +157,16 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "NPC") {
-            // triggering = true;
+            Globals.triggering = true;
             triggerNpc = other.gameObject;
 
             animator.SetBool("isMoving", false);
-            triggerNpc.GetComponent<DialogueTrigger>().TriggerDialogue();
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "NPC") {
-            // triggering = false;
+            Globals.triggering = false;
             triggerNpc = null;
         }
     }
