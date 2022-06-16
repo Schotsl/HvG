@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Newtonsoft.Json;
@@ -10,6 +11,9 @@ public class OtherController : MonoBehaviour
   private Animator otherAnimator;
   private Transform otherTransform;
   private Rigidbody2D otherRigidbody;
+
+  private Vector2 futurePosition;
+  private Vector2 currentPosition;
 
   private void Start()
   {
@@ -26,29 +30,40 @@ public class OtherController : MonoBehaviour
     };
   }
 
-  private void WebsocketMessage(byte[] bytes) {
-    string message = System.Text.Encoding.UTF8.GetString(bytes);
-    Patch patch = JsonConvert.DeserializeObject<Patch>(message);
+  private void FixedUpdate() {
+    int speedX = 0;
+    int speedY = 0;
 
-    int currentX = (int)otherTransform.position.x;
-    int currentY = (int)otherTransform.position.y;
+    currentPosition = otherTransform.position;
 
-    Vector2 position = new Vector2(patch.e ?? currentX, patch.r ?? currentY);
-    Vector2 velocity = new Vector2(patch.q ?? 0, patch.w ?? 0);
+    float diffrenceX = Math.Abs(futurePosition.x - currentPosition.x);
+    float diffrenceY = Math.Abs(futurePosition.y - currentPosition.y);
 
-    MoveOther(velocity, position);
-  }
+    if (diffrenceX > 0.05) speedX = futurePosition.x > currentPosition.x ? 1 : -1;
+    if (diffrenceY > 0.05) speedY = futurePosition.y > currentPosition.y ? 1 : -1;
 
-  private void MoveOther(Vector2 velocity, Vector2 position) {
-    bool isMoving = velocity != Vector2.zero;
 
-    otherAnimator.SetFloat("Horizontal", velocity.x);
-    otherAnimator.SetFloat("Vertical", velocity.y);
-    otherAnimator.SetFloat("Speed", 1f);
+    // Start the animation based on the movement of the player
+    bool isMoving = speedX != 0 || speedY != 0;
     otherAnimator.SetBool("isMoving", isMoving);
 
-    // Actually update the position and velocity
-    otherRigidbody.velocity = velocity;
-    otherTransform.position = position;
+    // Set the animation speed to the speed of the character
+    int speedMovement = isMoving ? 1 : 0;
+    otherAnimator.SetFloat("Speed", speedMovement);
+
+    otherAnimator.SetFloat("Vertical", speedY);
+    otherAnimator.SetFloat("Horizontal", speedX);
+
+    otherRigidbody.velocity = new Vector2(speedX, speedY);
+  }
+
+  private void WebsocketMessage(byte[] bytes) {
+    string message = System.Text.Encoding.UTF8.GetString(bytes);
+
+    Patch patch = JsonConvert.DeserializeObject<Patch>(message);
+
+    futurePosition = new Vector2(patch.x, patch.y);
+
+    Debug.Log(patch.x);
   }
 }
