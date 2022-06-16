@@ -71,15 +71,10 @@ public class PlayerController : MonoBehaviour
         bool isMoving = false;
 
         if (!Globals.isPaused && !Globals.isDialoguing) {
+            
             // If movement input is not 0, try to move
             if (movementInput != Vector2.zero){
-                Vector2 xVelocity = new Vector2(movementInput.x, 0);
-                Vector2 yVelocity = new Vector2(0, movementInput.y);
-
-                bool xMoving = TryMove(xVelocity);
-                bool yMoving = TryMove(yVelocity);
-
-                isMoving = xMoving || yMoving;
+                isMoving = TryMove(movementInput);
             }
         }
 
