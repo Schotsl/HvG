@@ -11,6 +11,7 @@ public class PauseController : MonoBehaviour
     public GameObject PauseUI;
     public GameObject PauseMain;
     public GameObject PauseOptions;
+    public GameObject PauseBtn;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class PauseController : MonoBehaviour
     void UpdateUi(bool paused) {
         PauseUI.SetActive(Globals.isPaused);
         PauseMain.SetActive(Globals.isPaused);
-
+        PauseBtn.SetActive(!Globals.isPaused);
         PauseOptions.SetActive(false); 
     }
 }
