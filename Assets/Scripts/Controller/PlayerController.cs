@@ -68,31 +68,28 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void FixedUpdate() {
+        bool isMoving = false;
+
         if (!Globals.isPaused && !Globals.isDialoguing) {
             // If movement input is not 0, try to move
-            if(movementInput != Vector2.zero){
-                
-                bool success = TryMove(movementInput);
+            if (movementInput != Vector2.zero){
+                Vector2 xVelocity = new Vector2(movementInput.x, 0);
+                Vector2 yVelocity = new Vector2(0, movementInput.y);
 
-                if(!success) {
-                    success = TryMove(new Vector2(movementInput.x, 0));
-                }
+                bool xMoving = TryMove(xVelocity);
+                bool yMoving = TryMove(yVelocity);
 
-                if(!success) {
-                    success = TryMove(new Vector2(0, movementInput.y));
-                }
-                
-                animator.SetBool("isMoving", success);
-            } else {
-                animator.SetBool("isMoving", false);
+                isMoving = xMoving || yMoving;
             }
+        }
 
         // Set direction of sprite to movement direction
-        animator.SetFloat("Horizontal", movementInput.x);
-        animator.SetFloat("Vertical", movementInput.y);
         animator.SetFloat("Speed", moveSpeed);
-        }
-        
+
+        animator.SetFloat("Vertical", movementInput.y);
+        animator.SetFloat("Horizontal", movementInput.x);
+
+        animator.SetBool("isMoving", isMoving);
     }
 
     private bool TryMove(Vector2 direction) {
