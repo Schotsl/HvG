@@ -63,7 +63,5 @@ public class OtherController : MonoBehaviour
     Patch patch = JsonConvert.DeserializeObject<Patch>(message);
 
     futurePosition = new Vector2(patch.x, patch.y);
-
-    Debug.Log(patch.x);
   }
 }
