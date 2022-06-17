@@ -31,10 +31,9 @@ public class HostWatcher : MonoBehaviour
   private void WebsocketOpen() {
 
   // Share the short code with the server so someone else can subscribe to it
-      Action action = new Action();
+      HostingUpdate action = new HostingUpdate();
 
       action.code = hostShort.text;
-      action.action = "hosting";
 
       websocketScript.SendWebsocket(action);
   }

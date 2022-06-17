@@ -1,6 +1,7 @@
 using UnityEngine;
 using NativeWebSocket;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class WebsocketManager : MonoBehaviour
 {
@@ -8,12 +9,18 @@ public class WebsocketManager : MonoBehaviour
 
     // Used https://medium.com/unity-nodejs/websocket-client-server-unity-nodejs-e33604c6a006
 
+    public List<PositionListener> positionListeners;
+    
     Formatting jsonFormatting;
     JsonSerializerSettings jsonSettings;
 
     public WebSocket websocket
     {
         get => Globals.websocket;
+    }
+
+    WebsocketManager() {
+        positionListeners = new List<PositionListener>();
     }
 
     private void Start()
@@ -42,6 +49,7 @@ public class WebsocketManager : MonoBehaviour
         Globals.websocket.OnOpen += OpenWebsocket;
         Globals.websocket.OnError += ErrorWebsocket;
         Globals.websocket.OnClose += CloseWebsocket;
+        Globals.websocket.OnMessage += MessageWebsocket;
 
         await Globals.websocket.Connect();
     }
@@ -64,6 +72,22 @@ public class WebsocketManager : MonoBehaviour
         Debug.Log("<color=orange>[WebsocketManager]</color> Connection has been closed");
     }
 
+    private void MessageWebsocket(byte[] bytes) {
+        string message = System.Text.Encoding.UTF8.GetString(bytes);
+        Update update = JsonConvert.DeserializeObject<Update>(message, jsonSettings);
+
+        if (update.type == Type.Position) {
+            PositionUpdate position = JsonConvert.DeserializeObject<PositionUpdate>(message, jsonSettings);
+
+            // Loop over every listener and send the update to them if the target matches
+            positionListeners.ForEach((positionListener) => {
+                if (positionListener.target == position.target) {
+                    positionListener.callback(position.x, position.y);
+                }
+            });
+        }
+    }
+
     async public void SendWebsocket(object data)
     {
         if (Globals.websocket == null) {
@@ -77,7 +101,7 @@ public class WebsocketManager : MonoBehaviour
         {
             await Globals.websocket.Connect();
         }
-        
+
         await Globals.websocket.SendText(json);
     }
 
@@ -87,5 +111,14 @@ public class WebsocketManager : MonoBehaviour
         {
             Globals.websocket.CancelConnection();
         }
+    }
+
+    public void SubscribePosition(string target, PositionCallback callback) {
+        PositionListener listener = new PositionListener(target, callback);
+
+        positionListeners.Add(listener);
+
+        Globals.websocket.OnMessage -= MessageWebsocket;
+        Globals.websocket.OnMessage += MessageWebsocket;
     }
 }
