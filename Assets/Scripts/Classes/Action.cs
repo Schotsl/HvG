@@ -1,3 +1,5 @@
+using UnityEngine;
+
 enum Type
 {
     Clue = 0,
@@ -62,8 +64,8 @@ class PositionUpdate : Update
         this.type = Type.Position;
         this.target = target;
         
-        this.x = x;
-        this.y = y;
+        this.x = Mathf.Round(x * 100f) / 100f;
+        this.y = Mathf.Round(y * 100f) / 100f;
     }
 }
 

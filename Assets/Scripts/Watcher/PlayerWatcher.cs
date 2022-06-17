@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Newtonsoft.Json;
 
 public class PlayerWatcher : MonoBehaviour
 {
@@ -27,12 +25,13 @@ public class PlayerWatcher : MonoBehaviour
     currentVector = playerTransform.position;
 
     if (currentVector != previousVector) {
-      Patch patch = new Patch();
+      string name = "Player 2";
+      float x = currentVector.x;
+      float y = currentVector.y;
 
-      patch.x = Mathf.Round(currentVector.x * 100f) / 100f;
-      patch.y = Mathf.Round(currentVector.y * 100f) / 100f;
+      PositionUpdate update = new PositionUpdate(name, x, y);
 
-      websocketScript.SendWebsocket(patch);
+      websocketScript.SendWebsocket(update);
     }
 
     previousVector = currentVector;

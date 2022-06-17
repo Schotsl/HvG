@@ -1,67 +1,60 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Newtonsoft.Json;
 
 public class OtherController : MonoBehaviour
 {
-  private GameObject websocketObject;
-  private WebsocketManager websocketScript;
+    private GameObject websocketObject;
+    private WebsocketManager websocketScript;
 
-  private Animator otherAnimator;
-  private Transform otherTransform;
-  private Rigidbody2D otherRigidbody;
+    private Animator otherAnimator;
+    private Rigidbody2D otherRigidbody;
 
-  private Vector2 futurePosition;
-  private Vector2 currentPosition;
+    private Vector2 startPosition;
+    private Vector2 targetPosition;
 
-  private void Start()
-  {
-    websocketObject = GameObject.Find("WebsocketManager");
-    websocketScript = websocketObject.GetComponent<WebsocketManager>();
+    private void Start()
+    {
+        websocketObject = GameObject.Find("WebsocketManager");
+        websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
-    otherAnimator = GetComponent<Animator>();
-    otherTransform = GetComponent<Transform>();
-    otherRigidbody = GetComponent<Rigidbody2D>();
+        otherAnimator = GetComponent<Animator>();
+        otherRigidbody = GetComponent<Rigidbody2D>();
 
-    // If the developer skipped the host screen they won't have a websocket
-    if (websocketScript.websocket != null) {
-      websocketScript.websocket.OnMessage += WebsocketMessage;
-    };
-  }
+        // Altough we're attaching this script too Player 2 I've still hardcoded the name just in case
+        string name = "Player 2";
 
-  private void FixedUpdate() {
-    int speedX = 0;
-    int speedY = 0;
+        websocketScript.SubscribePosition(name, RecievePosition);
+    }
 
-    currentPosition = otherTransform.position;
+    private void RecievePosition(float x, float y)
+    {
+        targetPosition = new Vector2(x, y);
+    }
 
-    float diffrenceX = Math.Abs(futurePosition.x - currentPosition.x);
-    float diffrenceY = Math.Abs(futurePosition.y - currentPosition.y);
+    private void FixedUpdate()
+    {
+        int speedX = 0;
+        int speedY = 0;
 
-    if (diffrenceX > 0.05) speedX = futurePosition.x > currentPosition.x ? 1 : -1;
-    if (diffrenceY > 0.05) speedY = futurePosition.y > currentPosition.y ? 1 : -1;
+        Vector2 currentPosition = otherRigidbody.position;
 
+        float diffrenceX = Math.Abs(targetPosition.x - currentPosition.x);
+        float diffrenceY = Math.Abs(targetPosition.y - currentPosition.y);
 
-    // Start the animation based on the movement of the player
-    bool isMoving = speedX != 0 || speedY != 0;
-    otherAnimator.SetBool("isMoving", isMoving);
+        if (diffrenceX > 0.05) speedX = targetPosition.x > currentPosition.x ? 1 : -1;
+        if (diffrenceY > 0.05) speedY = targetPosition.y > currentPosition.y ? 1 : -1;
 
-    // Set the animation speed to the speed of the character
-    int speedMovement = isMoving ? 1 : 0;
-    otherAnimator.SetFloat("Speed", speedMovement);
+        // Start the animation based on the movement of the player
+        bool isMoving = speedX != 0 || speedY != 0;
+        otherAnimator.SetBool("isMoving", isMoving);
 
-    otherAnimator.SetFloat("Vertical", speedY);
-    otherAnimator.SetFloat("Horizontal", speedX);
+        // Set the animation speed to the speed of the character
+        int speedMovement = isMoving ? 1 : 0;
+        otherAnimator.SetFloat("Speed", speedMovement);
 
-    otherRigidbody.velocity = new Vector2(speedX, speedY);
-  }
+        otherAnimator.SetFloat("Vertical", speedY);
+        otherAnimator.SetFloat("Horizontal", speedX);
 
-  private void WebsocketMessage(byte[] bytes) {
-    string message = System.Text.Encoding.UTF8.GetString(bytes);
-
-    Patch patch = JsonConvert.DeserializeObject<Patch>(message);
-
-    futurePosition = new Vector2(patch.x, patch.y);
-  }
+        otherRigidbody.velocity = new Vector2(speedX, speedY);
+    }
 }

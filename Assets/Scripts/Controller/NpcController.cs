@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
 
 using Random = UnityEngine.Random;
 
@@ -54,7 +53,7 @@ public class NpcController : MonoBehaviour
 
         targetPosition = new Vector2(randomX, randomY);
 
-        // Debug.Log($"<color=green>[NpcController]</color> {name} has selected {randomX} X, {randomY} Y");
+        Debug.Log($"<color=green>[NpcController]</color> {name} has selected {randomX} X, {randomY} Y");
 
         if (Globals.isHosting) {
             // Wrap the NPC's name and position in a object
