@@ -31,9 +31,9 @@ public class NpcController : MonoBehaviour
 
         if (Globals.isHosting) {
             SelectPosition();
-        } 
+        } else {
             websocketScript.SubscribePosition(name, RecievePosition);
-        // }
+        }
     }
 
     private void RecievePosition(float x, float y) {
