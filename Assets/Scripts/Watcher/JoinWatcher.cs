@@ -12,6 +12,8 @@ public class JoinWatcher : MonoBehaviour
 
   private void Start()
   {
+    Globals.isHosting = false;
+
     websocketObject = GameObject.Find("WebsocketManager");
     websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
@@ -44,11 +46,10 @@ public class JoinWatcher : MonoBehaviour
   {
     TMP_InputField inputField = inputObject.GetComponent<TMP_InputField>();
 
-    Action action = new Action();
+    SubscribeUpdate action = new SubscribeUpdate();
 
     // Fetch the code from the input field and submit it too the server
     action.code = inputField.text;
-    action.action = "subscribing";
 
     websocketScript.SendWebsocket(action);
   }

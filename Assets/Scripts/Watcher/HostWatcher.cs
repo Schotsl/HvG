@@ -11,6 +11,8 @@ public class HostWatcher : MonoBehaviour
 
   private void Start()
   {
+    Globals.isHosting = true;
+    
     websocketObject = GameObject.Find("WebsocketManager");
     websocketScript = websocketObject.GetComponent<WebsocketManager>();
 
