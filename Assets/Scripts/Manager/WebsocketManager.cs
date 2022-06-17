@@ -118,7 +118,9 @@ public class WebsocketManager : MonoBehaviour
 
         positionListeners.Add(listener);
 
-        Globals.websocket.OnMessage -= MessageWebsocket;
-        Globals.websocket.OnMessage += MessageWebsocket;
+        if (Globals.websocket != null) {
+            Globals.websocket.OnMessage -= MessageWebsocket;
+            Globals.websocket.OnMessage += MessageWebsocket;
+        }
     }
 }
