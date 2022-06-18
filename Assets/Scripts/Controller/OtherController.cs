@@ -23,7 +23,7 @@ public class OtherController : MonoBehaviour
         // Altough we're attaching this script too Player 2 I've still hardcoded the name just in case
         string name = "Player 2";
 
-        websocketScript.SubscribePosition(name, RecievePosition);
+        websocketScript.AddPosition(RecievePosition, name);
     }
 
     private void RecievePosition(float x, float y)

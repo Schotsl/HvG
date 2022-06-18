@@ -1,6 +1,6 @@
 using UnityEngine;
 
-enum Type
+public enum Type
 {
     Clue = 0,
     Laser = 1,
@@ -9,44 +9,34 @@ enum Type
     Subscribe = 4,
 }
 
-public delegate void PositionCallback(float x, float y);
-
-public class PositionListener
-{
-    public string target;
-    public PositionCallback callback;
-
-    public PositionListener(string target, PositionCallback callback)
-    {
-        this.target = target;
-        this.callback = callback;
-    }
-}
-
-class Update {
+public class Update {
     public Type type;
 }
 
-class ClueUpdate : Update
+public class ClueUpdate : Update
 {
-    public int number;
+    public string target;
 
     public ClueUpdate() {
         type = Type.Clue;
     }
 }
 
-class LaserUpdate : Update
+public class LaserUpdate : Update
 {
-    public int number;
+    public bool triggered;
+
+    public string target;
 
     public LaserUpdate() {
         type = Type.Laser;
     }
 }
 
-class HostingUpdate : Update
+public class HostingUpdate : Update
 {
+    public bool success;
+
     public string code;
 
     public HostingUpdate() {
@@ -54,7 +44,7 @@ class HostingUpdate : Update
     }
 }
 
-class PositionUpdate : Update
+public class PositionUpdate : Update
 {
     public string target;
     public float x;
@@ -69,11 +59,82 @@ class PositionUpdate : Update
     }
 }
 
-class SubscribeUpdate : Update
+public class SubscribeUpdate : Update
 {
+    public bool success;
+
     public string code;
 
     public SubscribeUpdate() {
         type = Type.Subscribe;
+    }
+}
+
+public delegate void ClueCallback();
+
+public delegate void LaserCallback(bool triggered);
+
+public delegate void HostingCallback(bool success);
+
+public delegate void PositionCallback(float x, float y);
+
+public delegate void SubscribeCallback(bool success);
+
+public class ClueListener
+{
+    public string target;
+
+    public ClueCallback callback;
+
+    public ClueListener(ClueCallback callback, string target)
+    {
+        this.callback = callback;
+        this.target = target;
+    }
+}
+
+public class LaserListener
+{
+    public string target;
+
+    public LaserCallback callback;
+
+    public LaserListener(LaserCallback callback, string target)
+    {
+        this.callback = callback;
+        this.target = target;
+    }
+}
+
+public class HostingListener
+{
+    public HostingCallback callback;
+
+    public HostingListener(HostingCallback callback)
+    {
+        this.callback = callback;
+    }
+}
+
+public class PositionListener
+{
+    public string target;
+
+    public PositionCallback callback;
+
+    public PositionListener(PositionCallback callback, string target)
+    {
+        this.callback = callback;
+        this.target = target;
+    }
+}
+
+public class SubscribeListener
+{
+    public SubscribeCallback callback;
+
+    public SubscribeListener(SubscribeCallback callback)
+    {
+        this.callback = callback;
     }
 }

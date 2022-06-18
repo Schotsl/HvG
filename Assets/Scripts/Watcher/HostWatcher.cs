@@ -27,7 +27,8 @@ public class HostWatcher : MonoBehaviour
     }
 
     websocketScript.websocket.OnOpen += WebsocketOpen;
-    websocketScript.websocket.OnMessage += WebsocketResponse;
+
+    websocketScript.AddHosting(HostingResponse);
   }
 
   private void WebsocketOpen() {
@@ -40,12 +41,12 @@ public class HostWatcher : MonoBehaviour
       websocketScript.SendWebsocket(action);
   }
 
-  private void WebsocketResponse(byte[] bytes) {
+  private void HostingResponse(bool success) {
     // Once a partner has been found we can go to the next scene
     SceneManager.LoadScene(sceneName:"SceneGame");
 
-    // Stop ourself from triggering this function again
-    websocketScript.websocket.OnMessage -= WebsocketResponse;
+    // Remove the listener since we won't be needing it
+    websocketScript.RemoveHosting(HostingResponse);
   }
 
   private string GenerateCode(int length)
