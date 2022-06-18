@@ -14,49 +14,70 @@ public class WebsocketManager : MonoBehaviour
     public List<HostingListener> hostingListeners;
     public List<PositionListener> positionListeners;
     public List<SubscribeListener> subscribeListeners;
-    
-    Formatting jsonFormatting;
-    JsonSerializerSettings jsonSettings;
+
+    public List<object> queueList;
 
     public WebSocket websocket
     {
         get => Globals.websocket;
     }
 
-    WebsocketManager() {
+    WebsocketManager()
+    {
         clueListeners = new List<ClueListener>();
         laserListeners = new List<LaserListener>();
         hostingListeners = new List<HostingListener>();
         positionListeners = new List<PositionListener>();
         subscribeListeners = new List<SubscribeListener>();
+
+        queueList = new List<object>();
     }
 
     private void Start()
     {
         Debug.Log("<color=orange>[WebsocketManager]</color> Mounting websocket");
-
-        jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-        jsonFormatting = Formatting.None;
     }
 
     private void Update()
     {
-        if (Globals.websocket != null) {
-            #if !UNITY_WEBGL || UNITY_EDITOR
-                Globals.websocket.DispatchMessageQueue();
-            #endif
+        if (Globals.websocket != null)
+        {
+            // We can abort the update if the WebSocket is closed
+            if (Globals.websocket.State != WebSocketState.Open)
+            {
+                return;
+            }
+
+            // If there is new item in the queue we'll send it of as a JSON string
+            queueList.ForEach(
+                async (item) =>
+                {
+                    string json = JsonConvert.SerializeObject(item);
+                    await Globals.websocket.SendText(json);
+                }
+            );
+
+            // Since we've processed the entire queue we can empty it
+            queueList.Clear();
+
+            // Actually send the data too the server
+#if !UNITY_WEBGL || UNITY_EDITOR
+            Globals.websocket.DispatchMessageQueue();
+#endif
         }
     }
 
-    private void RestartListener() {
-        if (Globals.websocket != null) {
+    private void RestartListener()
+    {
+        if (Globals.websocket != null)
+        {
             Globals.websocket.OnMessage -= MessageWebsocket;
             Globals.websocket.OnMessage += MessageWebsocket;
-        }  
+        }
     }
 
     async public void StartWebsocket()
-    {   
+    {
         Debug.Log("<color=orange>[WebsocketManager]</color> Starting websocket");
 
         Globals.websocket = new WebSocket("wss://hvg-server.deno.dev/v1/socket");
@@ -69,29 +90,35 @@ public class WebsocketManager : MonoBehaviour
         await Globals.websocket.Connect();
     }
 
-    async public void ConnectWebsocket() {
+    async public void ConnectWebsocket()
+    {
         Debug.Log("<color=orange>[WebsocketManager]</color> Restoring websocket");
 
         await Globals.websocket.Connect();
     }
 
-    private void OpenWebsocket() {
+    private void OpenWebsocket()
+    {
         Debug.Log("<color=orange>[WebsocketManager]</color> Connection has been opened");
     }
 
-    private void ErrorWebsocket(string error) {
+    private void ErrorWebsocket(string error)
+    {
         Debug.Log("<color=orange>[WebsocketManager]</color> Connection error occurred" + error);
     }
 
-    private void CloseWebsocket(WebSocketCloseCode error) {
+    private void CloseWebsocket(WebSocketCloseCode error)
+    {
         Debug.Log("<color=orange>[WebsocketManager]</color> Connection has been closed");
     }
 
-    private void MessageWebsocket(byte[] bytes) {
+    private void MessageWebsocket(byte[] bytes)
+    {
         string message = System.Text.Encoding.UTF8.GetString(bytes);
-        Update update = JsonConvert.DeserializeObject<Update>(message, jsonSettings);
+        Update update = JsonConvert.DeserializeObject<Update>(message);
 
-        switch (update.type) {
+        switch (update.type)
+        {
             case Type.Clue:
                 ClueUpdate clueUpdate = JsonConvert.DeserializeObject<ClueUpdate>(message);
                 SendClue(clueUpdate);
@@ -105,35 +132,28 @@ public class WebsocketManager : MonoBehaviour
                 SendHosting(hostingUpdate);
                 break;
             case Type.Position:
-                PositionUpdate positionUpdate = JsonConvert.DeserializeObject<PositionUpdate>(message);
+                PositionUpdate positionUpdate = JsonConvert.DeserializeObject<PositionUpdate>(
+                    message
+                );
                 SendPosition(positionUpdate);
                 break;
             case Type.Subscribe:
-                SubscribeUpdate subscribeUpdate = JsonConvert.DeserializeObject<SubscribeUpdate>(message);
+                SubscribeUpdate subscribeUpdate = JsonConvert.DeserializeObject<SubscribeUpdate>(
+                    message
+                );
                 SendSubscribe(subscribeUpdate);
                 break;
             default:
-                Debug.Log("<color=orange>[WebsocketManager]</color> An unknown message has been received");
+                Debug.Log(
+                    "<color=orange>[WebsocketManager]</color> An unknown message has been received"
+                );
                 break;
-
         }
     }
 
-    async public void SendWebsocket(object data)
+    public void SendWebsocket(object data)
     {
-        if (Globals.websocket == null) {
-            return;
-        }
-
-        string json = JsonConvert.SerializeObject(data, jsonFormatting, jsonSettings);
-
-        // We can abort the update if the WebSocket is closed 
-        if (Globals.websocket.State != WebSocketState.Open)
-        {
-            await Globals.websocket.Connect();
-        }
-
-        await Globals.websocket.SendText(json);
+        queueList.Add(data);
     }
 
     private void OnApplicationQuit()
@@ -144,25 +164,30 @@ public class WebsocketManager : MonoBehaviour
         }
     }
 
-
-
-    public void AddClue(ClueCallback callback, string target) {
+    public void AddClue(ClueCallback callback, string target)
+    {
         ClueListener listener = new ClueListener(callback, target);
-        
+
         clueListeners.Add(listener);
 
         RestartListener();
     }
 
-    public void SendClue(ClueUpdate update) {
-        clueListeners.ForEach((listener) => {
-            if (listener.target == update.target) {
-                listener.callback();
+    public void SendClue(ClueUpdate update)
+    {
+        clueListeners.ForEach(
+            (listener) =>
+            {
+                if (listener.target == update.target)
+                {
+                    listener.callback();
+                }
             }
-        });
+        );
     }
 
-    public void RemoveClue(ClueCallback callback, string target) {
+    public void RemoveClue(ClueCallback callback, string target)
+    {
         ClueListener listener = new ClueListener(callback, target);
 
         clueListeners.Remove(listener);
@@ -170,9 +195,8 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    
-
-    public void AddLaser(LaserCallback callback, string target) {
+    public void AddLaser(LaserCallback callback, string target)
+    {
         LaserListener listener = new LaserListener(callback, target);
 
         laserListeners.Add(listener);
@@ -180,15 +204,21 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    public void SendLaser(LaserUpdate update) {
-        laserListeners.ForEach((listener) => {
-            if (listener.target == update.target) {
-                listener.callback(update.triggered);
+    public void SendLaser(LaserUpdate update)
+    {
+        laserListeners.ForEach(
+            (listener) =>
+            {
+                if (listener.target == update.target)
+                {
+                    listener.callback(update.triggered);
+                }
             }
-        });
+        );
     }
 
-    public void RemoveLaser(LaserCallback callback, string target) {
+    public void RemoveLaser(LaserCallback callback, string target)
+    {
         LaserListener listener = new LaserListener(callback, target);
 
         laserListeners.Remove(listener);
@@ -196,9 +226,8 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-
-
-    public void AddHosting(HostingCallback callback) {
+    public void AddHosting(HostingCallback callback)
+    {
         HostingListener listener = new HostingListener(callback);
 
         hostingListeners.Add(listener);
@@ -206,14 +235,18 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    public void SendHosting(HostingUpdate update) {
-        Debug.Log("bruh");
-        hostingListeners.ForEach((listener) => {
-            listener.callback(update.success);
-        });
+    public void SendHosting(HostingUpdate update)
+    {
+        hostingListeners.ForEach(
+            (listener) =>
+            {
+                listener.callback(update.success);
+            }
+        );
     }
 
-    public void RemoveHosting(HostingCallback callback) {
+    public void RemoveHosting(HostingCallback callback)
+    {
         HostingListener listener = new HostingListener(callback);
 
         hostingListeners.Remove(listener);
@@ -221,9 +254,8 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-
-
-    public void AddPosition(PositionCallback callback, string target) {
+    public void AddPosition(PositionCallback callback, string target)
+    {
         PositionListener listener = new PositionListener(callback, target);
 
         positionListeners.Add(listener);
@@ -231,15 +263,21 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    public void SendPosition(PositionUpdate update) {
-        positionListeners.ForEach((listener) => {
-            if (listener.target == update.target) {
-                listener.callback(update.x, update.y);
+    public void SendPosition(PositionUpdate update)
+    {
+        positionListeners.ForEach(
+            (listener) =>
+            {
+                if (listener.target == update.target)
+                {
+                    listener.callback(update.x, update.y);
+                }
             }
-        });
+        );
     }
 
-    public void RemovePosition(PositionCallback callback, string target) {
+    public void RemovePosition(PositionCallback callback, string target)
+    {
         PositionListener listener = new PositionListener(callback, target);
 
         positionListeners.Remove(listener);
@@ -247,9 +285,8 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-
-
-    public void AddSubscribe(SubscribeCallback callback) {
+    public void AddSubscribe(SubscribeCallback callback)
+    {
         SubscribeListener listener = new SubscribeListener(callback);
 
         subscribeListeners.Add(listener);
@@ -257,13 +294,18 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    public void SendSubscribe(SubscribeUpdate update) {
-        subscribeListeners.ForEach((listener) => {
-            listener.callback(update.success);
-        });
+    public void SendSubscribe(SubscribeUpdate update)
+    {
+        subscribeListeners.ForEach(
+            (listener) =>
+            {
+                listener.callback(update.success);
+            }
+        );
     }
 
-    public void RemoveSubscribe(SubscribeCallback callback) {
+    public void RemoveSubscribe(SubscribeCallback callback)
+    {
         SubscribeListener listener = new SubscribeListener(callback);
 
         subscribeListeners.Remove(listener);

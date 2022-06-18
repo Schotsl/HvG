@@ -1,3 +1,4 @@
-class Response {
+class Response
+{
     public bool success;
 }

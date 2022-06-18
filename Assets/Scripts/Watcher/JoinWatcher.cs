@@ -1,56 +1,50 @@
 using TMPro;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class JoinWatcher : MonoBehaviour
 {
-  public GameObject inputObject;
+    public GameObject inputObject;
 
-  private GameObject websocketObject;
-  private WebsocketManager websocketScript;
+    private GameObject websocketObject;
+    private WebsocketManager websocketScript;
 
-  private void Start()
-  {
-    Globals.isHosting = false;
-
-    websocketObject = GameObject.Find("WebsocketManager");
-    websocketScript = websocketObject.GetComponent<WebsocketManager>();
-
-    if (websocketScript.websocket == null) {
-      websocketScript.StartWebsocket();
-    } else {
-      websocketScript.ConnectWebsocket();
-    }
-
-    websocketScript.websocket.OnMessage += WebsocketResponse;
-  }
-
-  private void WebsocketResponse(byte[] bytes) {
-    // Transform the JSON into a patch so we can validate the success
-    string message = System.Text.Encoding.UTF8.GetString(bytes);
-    Response patch = JsonConvert.DeserializeObject<Response>(message);
-
-    if (patch.success)
+    private void Start()
     {
-      // Once a partner has been found we can go to the next scene
-      SceneManager.LoadScene(sceneName:"SceneGame");
+        Globals.isHosting = false;
 
-      // Stop ourself from triggering this function again
-      websocketScript.websocket.OnMessage -= WebsocketResponse;
+        websocketObject = GameObject.Find("WebsocketManager");
+        websocketScript = websocketObject.GetComponent<WebsocketManager>();
+
+        if (websocketScript.websocket == null)
+        {
+            websocketScript.StartWebsocket();
+        }
+        else
+        {
+            websocketScript.ConnectWebsocket();
+        }
+
+        websocketScript.AddSubscribe(SubscribeResponse);
     }
-  }
 
+    private void SubscribeResponse(bool success)
+    {
+        // Once a partner has been found we can go to the next scene
+        SceneManager.LoadScene(sceneName: "SceneGame");
 
-  public void JoinGame()
-  {
-    TMP_InputField inputField = inputObject.GetComponent<TMP_InputField>();
+        // Remove the listener since we won't be needing it
+        websocketScript.RemoveSubscribe(SubscribeResponse);
+    }
 
-    SubscribeUpdate action = new SubscribeUpdate();
+    public void JoinGame()
+    {
+        TMP_InputField inputField = inputObject.GetComponent<TMP_InputField>();
 
-    // Fetch the code from the input field and submit it too the server
-    action.code = inputField.text;
+        string code = inputField.text;
 
-    websocketScript.SendWebsocket(action);
-  }
+        // Fetch the code from the input field and submit it too the server
+        SubscribeUpdate action = new SubscribeUpdate(code);
+        websocketScript.SendWebsocket(action);
+    }
 }
