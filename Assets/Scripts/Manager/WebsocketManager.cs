@@ -14,10 +14,9 @@ public class WebsocketManager : MonoBehaviour
     public List<HostingListener> hostingListeners;
     public List<PositionListener> positionListeners;
     public List<SubscribeListener> subscribeListeners;
-    
-    Formatting jsonFormatting;
-    JsonSerializerSettings jsonSettings;
 
+    public List<object> queueList;
+    
     public WebSocket websocket
     {
         get => Globals.websocket;
@@ -29,19 +28,34 @@ public class WebsocketManager : MonoBehaviour
         hostingListeners = new List<HostingListener>();
         positionListeners = new List<PositionListener>();
         subscribeListeners = new List<SubscribeListener>();
+
+        queueList = new List<object>();
     }
 
     private void Start()
     {
         Debug.Log("<color=orange>[WebsocketManager]</color> Mounting websocket");
-
-        jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-        jsonFormatting = Formatting.None;
     }
 
     private void Update()
     {
         if (Globals.websocket != null) {
+            // We can abort the update if the WebSocket is closed 
+            if (Globals.websocket.State != WebSocketState.Open)
+            {
+                return;
+            }
+
+            // If there is new item in the queue we'll send it of as a JSON string
+            queueList.ForEach(async (item) => {
+                string json = JsonConvert.SerializeObject(item);
+                await Globals.websocket.SendText(json);
+            });
+
+            // Since we've processed the entire queue we can empty it
+            queueList.Clear();
+
+            // Actually send the data too the server
             #if !UNITY_WEBGL || UNITY_EDITOR
                 Globals.websocket.DispatchMessageQueue();
             #endif
@@ -89,7 +103,7 @@ public class WebsocketManager : MonoBehaviour
 
     private void MessageWebsocket(byte[] bytes) {
         string message = System.Text.Encoding.UTF8.GetString(bytes);
-        Update update = JsonConvert.DeserializeObject<Update>(message, jsonSettings);
+        Update update = JsonConvert.DeserializeObject<Update>(message);
 
         switch (update.type) {
             case Type.Clue:
@@ -119,21 +133,9 @@ public class WebsocketManager : MonoBehaviour
         }
     }
 
-    async public void SendWebsocket(object data)
+    public void SendWebsocket(object data)
     {
-        if (Globals.websocket == null) {
-            return;
-        }
-
-        string json = JsonConvert.SerializeObject(data, jsonFormatting, jsonSettings);
-
-        // We can abort the update if the WebSocket is closed 
-        if (Globals.websocket.State != WebSocketState.Open)
-        {
-            await Globals.websocket.Connect();
-        }
-
-        await Globals.websocket.SendText(json);
+        queueList.Add(data);
     }
 
     private void OnApplicationQuit()
@@ -207,7 +209,6 @@ public class WebsocketManager : MonoBehaviour
     }
 
     public void SendHosting(HostingUpdate update) {
-        Debug.Log("bruh");
         hostingListeners.ForEach((listener) => {
             listener.callback(update.success);
         });

@@ -7,6 +7,7 @@ public enum Type
     Hosting = 2,
     Position = 3,
     Subscribe = 4,
+    Restoring = 5,
 }
 
 public class Update {
@@ -18,7 +19,7 @@ public class ClueUpdate : Update
     public string target;
 
     public ClueUpdate() {
-        type = Type.Clue;
+        this.type = Type.Clue;
     }
 }
 
@@ -29,7 +30,7 @@ public class LaserUpdate : Update
     public string target;
 
     public LaserUpdate() {
-        type = Type.Laser;
+        this.type = Type.Laser;
     }
 }
 
@@ -39,8 +40,9 @@ public class HostingUpdate : Update
 
     public string code;
 
-    public HostingUpdate() {
-        type = Type.Hosting;
+    public HostingUpdate(string code) {
+        this.code = code;
+        this.type = Type.Hosting;
     }
 }
 
@@ -65,8 +67,9 @@ public class SubscribeUpdate : Update
 
     public string code;
 
-    public SubscribeUpdate() {
-        type = Type.Subscribe;
+    public SubscribeUpdate(string code) {
+        this.code = code;
+        this.type = Type.Subscribe;
     }
 }
 

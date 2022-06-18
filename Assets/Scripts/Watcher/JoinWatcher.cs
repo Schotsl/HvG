@@ -1,5 +1,4 @@
 using TMPro;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,34 +22,26 @@ public class JoinWatcher : MonoBehaviour
       websocketScript.ConnectWebsocket();
     }
 
-    websocketScript.websocket.OnMessage += WebsocketResponse;
+    websocketScript.AddSubscribe(SubscribeResponse);
   }
 
-  private void WebsocketResponse(byte[] bytes) {
-    // Transform the JSON into a patch so we can validate the success
-    string message = System.Text.Encoding.UTF8.GetString(bytes);
-    Response patch = JsonConvert.DeserializeObject<Response>(message);
-
-    if (patch.success)
-    {
+  private void SubscribeResponse(bool success)
+  {
       // Once a partner has been found we can go to the next scene
-      SceneManager.LoadScene(sceneName:"SceneGame");
+      SceneManager.LoadScene(sceneName: "SceneGame");
 
-      // Stop ourself from triggering this function again
-      websocketScript.websocket.OnMessage -= WebsocketResponse;
-    }
+      // Remove the listener since we won't be needing it
+      websocketScript.RemoveSubscribe(SubscribeResponse);
   }
-
 
   public void JoinGame()
   {
     TMP_InputField inputField = inputObject.GetComponent<TMP_InputField>();
-
-    SubscribeUpdate action = new SubscribeUpdate();
+    
+    string code = inputField.text;
 
     // Fetch the code from the input field and submit it too the server
-    action.code = inputField.text;
-
+    SubscribeUpdate action = new SubscribeUpdate(code);
     websocketScript.SendWebsocket(action);
   }
 }
