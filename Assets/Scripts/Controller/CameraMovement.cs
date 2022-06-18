@@ -42,6 +42,8 @@ public class CameraMovement : MonoBehaviour
         controls.Mouse.MouseWheel.performed += x => mouseScroll = x.ReadValue<float>();
     }
 
+
+
     private void OnEnable() {
         controls.Enable();
     }
@@ -49,7 +51,10 @@ public class CameraMovement : MonoBehaviour
     private void OnDisable() {
         controls.Disable();
     }
-
+    private void Start(){
+        controls.Touch.SecondaryTouchContact.started += _ => ZoomStart();
+        controls.Touch.SecondaryTouchContact.canceled += _ => ZoomEnd();
+    }
     // Update is called once per frame
     void Update(){
         PanCamera();
@@ -71,6 +76,14 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
+    private void ZoomStart(){
+        zoomCoroutine = StartCoroutine(ZoomDetection());
+    }
+
+    private void ZoomEnd(){
+        StopCoroutine(ZoomDetection());
+    }
+
     IEnumerator ZoomDetection(){
         float previousDistance = 0f, distance = 0f;
         while(true) {
@@ -83,6 +96,7 @@ public class CameraMovement : MonoBehaviour
                 ZoomOut();
                 Debug.Log("Zooming out");
             }
+            previousDistance = distance;
         }
     }
 
