@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,15 +22,18 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInputActions playerInputActions;
 
-    private void Awake() {
+    private void Awake()
+    {
         playerInputActions = new PlayerInputActions();
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         playerInputActions.Enable();
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         playerInputActions.Disable();
     }
 
@@ -50,30 +52,39 @@ public class PlayerController : MonoBehaviour
     // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
     void Update()
     {
-        if (SystemInfo.deviceType == DeviceType.Handheld) {
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
         }
 
-        if(playerInputActions.Player.PauseKey.triggered){
+        if (playerInputActions.Player.PauseKey.triggered)
+        {
             pauseController.Toggle();
         }
-        if (Globals.triggering) {
+        if (Globals.triggering)
+        {
             triggerNpc.transform.GetChild(0).gameObject.SetActive(true);
             previousNpc = triggerNpc;
-        } else {
-            if (previousNpc != null){
+        }
+        else
+        {
+            if (previousNpc != null)
+            {
                 previousNpc.transform.GetChild(0).gameObject.SetActive(false);
                 previousNpc = null;
-            } 
+            }
         }
     }
-    private void FixedUpdate() {
+
+    private void FixedUpdate()
+    {
         bool isMoving = false;
 
-        if (!Globals.isPaused && !Globals.isDialoguing) {
-            
+        if (!Globals.isPaused && !Globals.isDialoguing)
+        {
             // If movement input is not 0, try to move
-            if (movementInput != Vector2.zero){
+            if (movementInput != Vector2.zero)
+            {
                 isMoving = TryMove(movementInput);
             }
         }
@@ -87,33 +98,44 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isMoving", isMoving);
     }
 
-    private bool TryMove(Vector2 direction) {
-        if(direction != Vector2.zero) {
+    private bool TryMove(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
             // Check for potential collisions
             int count = rb.Cast(
                 direction, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can occur on such as layers to collide with
                 castCollisions, // List of collisions to store the found collisions into after the Cast is finished
-                moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
+                moveSpeed * Time.fixedDeltaTime + collisionOffset
+            ); // The amount to cast equal to the movement plus an offset
 
-            if(count == 0){
+            if (count == 0)
+            {
                 rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
-        } else {
+        }
+        else
+        {
             // Can't move if there's no direction to move in
             return false;
         }
     }
 
-    void OnMove(InputValue movementValue) {
+    void OnMove(InputValue movementValue)
+    {
         movementInput = movementValue.Get<Vector2>();
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
-        if(other.tag == "NPC") {
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "NPC")
+        {
             Globals.triggering = true;
             triggerNpc = other.gameObject;
 
@@ -121,8 +143,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D other) {
-        if(other.tag == "NPC") {
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "NPC")
+        {
             Globals.triggering = false;
             triggerNpc = null;
         }

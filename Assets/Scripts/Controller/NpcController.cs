@@ -21,27 +21,32 @@ public class NpcController : MonoBehaviour
     {
         websocketObject = GameObject.Find("WebsocketManager");
         websocketScript = websocketObject.GetComponent<WebsocketManager>();
-        
+
         otherAnimator = GetComponent<Animator>();
         otherRigidbody = GetComponent<Rigidbody2D>();
 
         startPosition = otherRigidbody.position;
         targetPosition = otherRigidbody.position;
 
-        if (Globals.isHosting) {
+        if (Globals.isHosting)
+        {
             SelectPosition();
-        } else {
+        }
+        else
+        {
             websocketScript.AddPosition(RecievePosition, name);
         }
     }
 
-    private void RecievePosition(float x, float y) {
+    private void RecievePosition(float x, float y)
+    {
         targetPosition = new Vector2(x, y);
 
         Debug.Log($"<color=green>[NpcController]</color> {name} has received {x} X, {y} Y");
     }
 
-    private void SelectPosition() {
+    private void SelectPosition()
+    {
         float postiveX = startPosition.x + movingRadius;
         float negativeX = startPosition.x - movingRadius;
 
@@ -53,9 +58,12 @@ public class NpcController : MonoBehaviour
 
         targetPosition = new Vector2(randomX, randomY);
 
-        Debug.Log($"<color=green>[NpcController]</color> {name} has selected {randomX} X, {randomY} Y");
+        Debug.Log(
+            $"<color=green>[NpcController]</color> {name} has selected {randomX} X, {randomY} Y"
+        );
 
-        if (Globals.isHosting) {
+        if (Globals.isHosting)
+        {
             // Wrap the NPC's name and position in a object
             PositionUpdate update = new PositionUpdate(name, randomX, randomY);
 
@@ -64,7 +72,8 @@ public class NpcController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         int speedX = 0;
         int speedY = 0;
 
@@ -73,8 +82,10 @@ public class NpcController : MonoBehaviour
         float diffrenceX = Math.Abs(targetPosition.x - currentPosition.x);
         float diffrenceY = Math.Abs(targetPosition.y - currentPosition.y);
 
-        if (diffrenceX > 0.05) speedX = targetPosition.x > currentPosition.x ? 1 : -1;
-        if (diffrenceY > 0.05) speedY = targetPosition.y > currentPosition.y ? 1 : -1;
+        if (diffrenceX > 0.05)
+            speedX = targetPosition.x > currentPosition.x ? 1 : -1;
+        if (diffrenceY > 0.05)
+            speedY = targetPosition.y > currentPosition.y ? 1 : -1;
 
         // Start the animation based on the movement of the player
         bool isMoving = speedX != 0 || speedY != 0;
@@ -90,10 +101,11 @@ public class NpcController : MonoBehaviour
         otherRigidbody.velocity = new Vector2(speedX, speedY);
 
         // If the NPC stopped moving we can select a new target
-        if (otherRigidbody.velocity == Vector2.zero) {
-
+        if (otherRigidbody.velocity == Vector2.zero)
+        {
             // Only the host needs to select a new target
-            if (Globals.isHosting) {
+            if (Globals.isHosting)
+            {
                 SelectPosition();
             }
         }

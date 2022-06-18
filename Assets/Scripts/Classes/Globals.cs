@@ -9,5 +9,5 @@ public class Globals : MonoBehaviour
 
     public static WebSocket websocket;
 
-    public static bool triggering; 
+    public static bool triggering;
 }

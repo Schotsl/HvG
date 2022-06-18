@@ -41,8 +41,10 @@ public class OtherController : MonoBehaviour
         float diffrenceX = Math.Abs(targetPosition.x - currentPosition.x);
         float diffrenceY = Math.Abs(targetPosition.y - currentPosition.y);
 
-        if (diffrenceX > 0.05) speedX = targetPosition.x > currentPosition.x ? 1 : -1;
-        if (diffrenceY > 0.05) speedY = targetPosition.y > currentPosition.y ? 1 : -1;
+        if (diffrenceX > 0.05)
+            speedX = targetPosition.x > currentPosition.x ? 1 : -1;
+        if (diffrenceY > 0.05)
+            speedY = targetPosition.y > currentPosition.y ? 1 : -1;
 
         // Start the animation based on the movement of the player
         bool isMoving = speedX != 0 || speedY != 0;
