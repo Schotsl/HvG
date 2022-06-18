@@ -62,6 +62,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClueMapView"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb0998e5-aab4-4dee-ae52-508d3d061af5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -293,6 +302,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""PauseKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae5e1d7a-9707-4405-b3f0-bf1ae5307b3f"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ClueMapView"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -884,6 +904,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_PauseKey = m_Player.FindAction("PauseKey", throwIfNotFound: true);
+        m_Player_ClueMapView = m_Player.FindAction("ClueMapView", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,6 +980,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_PauseKey;
+    private readonly InputAction m_Player_ClueMapView;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -967,6 +989,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @PauseKey => m_Wrapper.m_Player_PauseKey;
+        public InputAction @ClueMapView => m_Wrapper.m_Player_ClueMapView;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -988,6 +1011,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @PauseKey.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseKey;
                 @PauseKey.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseKey;
                 @PauseKey.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseKey;
+                @ClueMapView.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClueMapView;
+                @ClueMapView.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClueMapView;
+                @ClueMapView.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClueMapView;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1004,6 +1030,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @PauseKey.started += instance.OnPauseKey;
                 @PauseKey.performed += instance.OnPauseKey;
                 @PauseKey.canceled += instance.OnPauseKey;
+                @ClueMapView.started += instance.OnClueMapView;
+                @ClueMapView.performed += instance.OnClueMapView;
+                @ClueMapView.canceled += instance.OnClueMapView;
             }
         }
     }
@@ -1164,6 +1193,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnPauseKey(InputAction.CallbackContext context);
+        void OnClueMapView(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

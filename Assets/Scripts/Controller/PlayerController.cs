@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
     {
         bool isMoving = false;
 
-        if (!Globals.isPaused && !Globals.isDialoguing)
-        {
+        if (!Globals.isPaused && !Globals.isDialoguing && !Globals.isInMap) {
+            
             // If movement input is not 0, try to move
             if (movementInput != Vector2.zero)
             {
