@@ -27,15 +27,6 @@ public class NpcController : MonoBehaviour
 
         startPosition = otherRigidbody.position;
         targetPosition = otherRigidbody.position;
-
-        if (Globals.isHosting)
-        {
-            SelectPosition();
-        }
-        else
-        {
-            websocketScript.AddPosition(RecievePosition, name);
-        }
     }
 
     private void RecievePosition(float x, float y)
