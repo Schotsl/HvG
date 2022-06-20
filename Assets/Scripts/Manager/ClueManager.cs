@@ -3,203 +3,111 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[System.Serializable]
+public class ClueWrapper
+{
+    public bool clueFound;
+    public string clueName;
+
+    public GameObject clueLine;
+    public GameObject clueObject;
+
+    public List<GameObject> clueChildren = new List<GameObject>();
+}
+
 public class ClueManager : MonoBehaviour
 {
-    public GameObject clueM1;
-    public GameObject clueM2;
-    public GameObject clueM2_5;
-    public GameObject clueM3;
-    public GameObject clueM4;
-    public GameObject clueM5;
-    public GameObject clueM6;
-    public GameObject clueM7;
-    public GameObject clueS1;
-    public GameObject clueS2;
-    public GameObject clueS3;
-    public GameObject clueS4;
+    [NonReorderable]
+    public List<ClueWrapper> clueList;
 
-    public GameObject lineM1;
-    public GameObject lineM2;
-    public GameObject lineM2_5;
-    public GameObject lineM3;
-    public GameObject lineM4;
-    public GameObject lineM5;
-    public GameObject lineM6;
-    public GameObject lineS1;
-    public GameObject lineS2;
-    public GameObject lineS3;
-    public GameObject lineS4;
-  
-    public bool clue1;
-    public bool clue2;    
-    public bool clue2_5;
-    public bool clue3;
-    public bool clue4;
-    public bool clue5;
-    public bool clue6;
-    public bool clue7;
-    public bool clueSide1;
-    public bool clueSide2;
-    public bool clueSide3;
-    public bool clueSide4;
-    private float clues = 0;
-    private bool fake = false;
-    private bool clueSide1Found = false;
-    private bool clueSide2Found = false;
-    private bool clueSide3Found = false;
-    private bool clueSide4Found = false;
-    
+    public Animator animator;
     public GameObject clueObject;
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
-    public Animator animator;
-    
-    // private string completeText;
-
 
     // Start is called before the first frame update
     void Start()
     {
-        clue1 = false;
-        clue2 = false;
-        clue2_5 = false;
-        clue3 = false;
-        clue4 = false;
-        clue5 = false;
-        clue6 = false;
-        clue7 = false;
-        clueSide1 = false;
-        clueSide2 = false;
-        clueSide3 = false;
-        clueSide4 = false;
+        clueList.ForEach(
+            (clueItem) =>
+            {
+                // bool clueFound = clueItem.clueFound;
 
-        lineM1.gameObject.SetActive(false);
-        lineM2.gameObject.SetActive(false);
-        lineM2_5.gameObject.SetActive(false);
-        lineM3.gameObject.SetActive(false);
-        lineM4.gameObject.SetActive(false);
-        lineM5.gameObject.SetActive(false);
-        lineM6.gameObject.SetActive(false);
-        lineS1.gameObject.SetActive(false);
-        lineS2.gameObject.SetActive(false);
-        lineS3.gameObject.SetActive(false);
-        lineS4.gameObject.SetActive(false);
+                // // clueItem.clueObject.SetActive(true);
+
+                clueItem.clueObject.SetActive(false);
+
+                if (clueItem.clueLine)
+                {
+                    clueItem.clueLine.SetActive(false);
+                }
+
+                // if (clueFound)
+                // {
+                //     clueItem.clueObject.transform.Find("?").gameObject.SetActive(false);
+                //     clueItem.clueObject.transform.Find("Image").gameObject.SetActive(true);
+                // }
+            }
+        );
+
+        clueList[0].clueObject.SetActive(true);
 
         clueObject.SetActive(true);
         animator.SetBool("isOpen", false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FoundClue(string temp)
     {
-        NextClue();
+        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == temp);
+
+        if (!clueWrapper.clueFound)
+        {
+            GameObject clueLine = clueWrapper.clueLine;
+            GameObject clueObject = clueWrapper.clueObject;
+
+            clueObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+
+            // We can always remove the question mark
+            clueObject.transform.Find("?").gameObject.SetActive(false);
+
+            if (clueObject.transform.Find("Image") != null)
+            {
+                // If there is a photo we'll switch too that
+                clueObject.transform.Find("Image").gameObject.SetActive(true);
+            }
+            else
+            {
+                // If there is no photo we'll switch to the other text
+                clueObject.transform.Find("!").gameObject.SetActive(true);
+            }
+
+            if (clueLine)
+            {
+                clueWrapper.clueLine.SetActive(true);
+            }
+
+            List<GameObject> clueChildren = clueWrapper.clueChildren;
+
+            clueChildren.ForEach(
+                (clueChild) =>
+                {
+                    clueChild.SetActive(true);
+                }
+            );
+        }
     }
 
-    void NextClue() {
-        //Start with 1 clue (given)
-        //when player finds clue (call this function)
-        //in function, if player only has clue 1, add clue 2
-        //if player has fake clue, add clue 2.5
-        //if player has clue 2, add clue 3
-        //............        
-        if (clue1 && clues == 0) {
-            //if clue1, 
-            clueM1.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM1.transform.Find("?").gameObject.SetActive(false);
-            clueM1.transform.Find("Image").gameObject.SetActive(true);
-            clueM2.gameObject.SetActive(true);
-            clueS1.gameObject.SetActive(true);
-            clueS2.gameObject.SetActive(true);
-            clueS3.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clue2 && clues == 1) {
-            clueM2.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM2.transform.Find("?").gameObject.SetActive(false);
-            clueM2.transform.Find("Image").gameObject.SetActive(true);
-            clueM3.gameObject.SetActive(true);
-            clueM2_5.gameObject.SetActive(true);
-            clueS4.gameObject.SetActive(true);
-            lineM1.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clue2_5 && fake == false) {
-            clueM2_5.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM2_5.transform.Find("?").gameObject.SetActive(false);
-            clueM2_5.transform.Find("Image").gameObject.SetActive(true);
-            lineM2_5.gameObject.SetActive(true);
-            fake = true;
-        }
-        if (clue3 && clues == 2) {
-            clueM3.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM3.transform.Find("?").gameObject.SetActive(false);
-            clueM3.transform.Find("Image").gameObject.SetActive(true);
-            clueM4.gameObject.SetActive(true);
-            lineM2.gameObject.SetActive(true);
-            clues++;
-        } 
-        if (clue4 && clues == 3) {
-            clueM4.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM4.transform.Find("?").gameObject.SetActive(false);
-            clueM4.transform.Find("Image").gameObject.SetActive(true);
-            clueM5.gameObject.SetActive(true);
-            lineM3.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clue5 && clues == 4) {
-            clueM5.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM5.transform.Find("?").gameObject.SetActive(false);
-            clueM5.transform.Find("Image").gameObject.SetActive(true);
-            clueM6.gameObject.SetActive(true);
-            lineM4.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clue6 && clues == 5) {
-            clueM6.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM6.transform.Find("?").gameObject.SetActive(false);
-            clueM6.transform.Find("Image").gameObject.SetActive(true);
-            clueM7.gameObject.SetActive(true);
-            lineM5.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clue7 && clues == 6) {
-            clueM7.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
-            clueM7.transform.Find("?").gameObject.SetActive(false);
-            clueM7.transform.Find("Image").gameObject.SetActive(true);
-            lineM6.gameObject.SetActive(true);
-            clues++;
-        }
-        if (clueSide1 && clueSide1Found == false) {
-            lineS1.gameObject.SetActive(true);
-            clueS1.transform.Find("?").gameObject.SetActive(false);
-            clueS1.transform.Find("!").gameObject.SetActive(true);
-            clueSide1Found = true;
-        }
-        if (clueSide2 && clueSide2Found == false) {
-            lineS2.gameObject.SetActive(true);
-            clueS2.transform.Find("?").gameObject.SetActive(false);
-            clueS2.transform.Find("!").gameObject.SetActive(true);
-            clueSide2Found = true;
-        }
-        if (clueSide3 && clueSide3Found == false) {
-            lineS3.gameObject.SetActive(true);
-            clueS3.transform.Find("?").gameObject.SetActive(false);
-            clueS3.transform.Find("!").gameObject.SetActive(true);
-            clueSide3Found = true;
-        }
-        if (clueSide4 && clueSide4Found == false) {
-            lineS4.gameObject.SetActive(true);
-            clueS4.transform.Find("?").gameObject.SetActive(false);
-            clueS4.transform.Find("!").gameObject.SetActive(true);
-            clueSide4Found = true;
-        }          
-    }
+    public void GetClue(ClueDisplay clueDialogue, string temp)
+    {
+        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == temp);
 
-    public void GetClue(ClueDisplay clueDialogue) {
-            clueObject.SetActive(true);
-            animator.SetBool("isOpen", true);
-            clueName.text = clueDialogue.name;
-            clueContent.text = clueDialogue.sentence;
+        animator.SetBool("isOpen", true);
+        clueObject.SetActive(true);
+
+        bool clueFound = clueWrapper.clueFound;
+
+        clueName.text = clueFound ? clueDialogue.name : "???";
+        clueContent.text = clueFound ? clueDialogue.sentence : "???";
     }
 
     public void EndDialogue()
