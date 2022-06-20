@@ -8,8 +8,11 @@ public class ClueWrapper
 {
     public bool clueFound;
     public string clueName;
+
     public GameObject clueLine;
     public GameObject clueObject;
+
+    public List<GameObject> clueChildren = new List<GameObject>();
 }
 
 public class ClueManager : MonoBehaviour
@@ -28,22 +31,26 @@ public class ClueManager : MonoBehaviour
         clueList.ForEach(
             (clueItem) =>
             {
-                bool clueFound = clueItem.clueFound;
+                // bool clueFound = clueItem.clueFound;
 
-                clueItem.clueObject.SetActive(true);
+                // // clueItem.clueObject.SetActive(true);
+
+                clueItem.clueObject.SetActive(false);
 
                 if (clueItem.clueLine)
                 {
-                    clueItem.clueLine.SetActive(clueFound);
+                    clueItem.clueLine.SetActive(false);
                 }
 
-                if (clueFound)
-                {
-                    clueItem.clueObject.transform.Find("?").gameObject.SetActive(false);
-                    clueItem.clueObject.transform.Find("Image").gameObject.SetActive(true);
-                }
+                // if (clueFound)
+                // {
+                //     clueItem.clueObject.transform.Find("?").gameObject.SetActive(false);
+                //     clueItem.clueObject.transform.Find("Image").gameObject.SetActive(true);
+                // }
             }
         );
+
+        clueList[0].clueObject.SetActive(true);
 
         clueObject.SetActive(true);
         animator.SetBool("isOpen", false);
@@ -59,13 +66,34 @@ public class ClueManager : MonoBehaviour
             GameObject clueObject = clueWrapper.clueObject;
 
             clueObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+
+            // We can always remove the question mark
             clueObject.transform.Find("?").gameObject.SetActive(false);
-            clueObject.transform.Find("Image").gameObject.SetActive(true);
+
+            if (clueObject.transform.Find("Image") != null)
+            {
+                // If there is a photo we'll switch too that
+                clueObject.transform.Find("Image").gameObject.SetActive(true);
+            }
+            else
+            {
+                // If there is no photo we'll switch to the other text
+                clueObject.transform.Find("!").gameObject.SetActive(true);
+            }
 
             if (clueLine)
             {
                 clueWrapper.clueLine.SetActive(true);
             }
+
+            List<GameObject> clueChildren = clueWrapper.clueChildren;
+
+            clueChildren.ForEach(
+                (clueChild) =>
+                {
+                    clueChild.SetActive(true);
+                }
+            );
         }
     }
 
