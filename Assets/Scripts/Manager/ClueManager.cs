@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ClueManager : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class ClueManager : MonoBehaviour
     public GameObject lineS2;
     public GameObject lineS3;
     public GameObject lineS4;
-
+  
     public bool clue1;
     public bool clue2;    
     public bool clue2_5;
@@ -47,6 +48,14 @@ public class ClueManager : MonoBehaviour
     private bool clueSide2Found = false;
     private bool clueSide3Found = false;
     private bool clueSide4Found = false;
+    
+    public GameObject clueObject;
+    public TextMeshProUGUI clueName;
+    public TextMeshProUGUI clueContent;
+    public Animator animator;
+    
+    // private string completeText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +84,9 @@ public class ClueManager : MonoBehaviour
         lineS2.gameObject.SetActive(false);
         lineS3.gameObject.SetActive(false);
         lineS4.gameObject.SetActive(false);
+
+        clueObject.SetActive(true);
+        animator.SetBool("isOpen", false);
     }
 
     // Update is called once per frame
@@ -93,6 +105,8 @@ public class ClueManager : MonoBehaviour
         if (clue1 && clues == 0) {
             //if clue1, 
             clueM1.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM1.transform.Find("?").gameObject.SetActive(false);
+            clueM1.transform.Find("Image").gameObject.SetActive(true);
             clueM2.gameObject.SetActive(true);
             clueS1.gameObject.SetActive(true);
             clueS2.gameObject.SetActive(true);
@@ -101,6 +115,8 @@ public class ClueManager : MonoBehaviour
         }
         if (clue2 && clues == 1) {
             clueM2.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM2.transform.Find("?").gameObject.SetActive(false);
+            clueM2.transform.Find("Image").gameObject.SetActive(true);
             clueM3.gameObject.SetActive(true);
             clueM2_5.gameObject.SetActive(true);
             clueS4.gameObject.SetActive(true);
@@ -109,53 +125,85 @@ public class ClueManager : MonoBehaviour
         }
         if (clue2_5 && fake == false) {
             clueM2_5.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM2_5.transform.Find("?").gameObject.SetActive(false);
+            clueM2_5.transform.Find("Image").gameObject.SetActive(true);
             lineM2_5.gameObject.SetActive(true);
             fake = true;
         }
         if (clue3 && clues == 2) {
             clueM3.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM3.transform.Find("?").gameObject.SetActive(false);
+            clueM3.transform.Find("Image").gameObject.SetActive(true);
             clueM4.gameObject.SetActive(true);
             lineM2.gameObject.SetActive(true);
             clues++;
         } 
         if (clue4 && clues == 3) {
             clueM4.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM4.transform.Find("?").gameObject.SetActive(false);
+            clueM4.transform.Find("Image").gameObject.SetActive(true);
             clueM5.gameObject.SetActive(true);
             lineM3.gameObject.SetActive(true);
             clues++;
         }
         if (clue5 && clues == 4) {
             clueM5.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM5.transform.Find("?").gameObject.SetActive(false);
+            clueM5.transform.Find("Image").gameObject.SetActive(true);
             clueM6.gameObject.SetActive(true);
             lineM4.gameObject.SetActive(true);
             clues++;
         }
         if (clue6 && clues == 5) {
             clueM6.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM6.transform.Find("?").gameObject.SetActive(false);
+            clueM6.transform.Find("Image").gameObject.SetActive(true);
             clueM7.gameObject.SetActive(true);
             lineM5.gameObject.SetActive(true);
             clues++;
         }
         if (clue7 && clues == 6) {
             clueM7.gameObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueM7.transform.Find("?").gameObject.SetActive(false);
+            clueM7.transform.Find("Image").gameObject.SetActive(true);
             lineM6.gameObject.SetActive(true);
             clues++;
         }
         if (clueSide1 && clueSide1Found == false) {
             lineS1.gameObject.SetActive(true);
+            clueS1.transform.Find("?").gameObject.SetActive(false);
+            clueS1.transform.Find("!").gameObject.SetActive(true);
             clueSide1Found = true;
         }
         if (clueSide2 && clueSide2Found == false) {
             lineS2.gameObject.SetActive(true);
+            clueS2.transform.Find("?").gameObject.SetActive(false);
+            clueS2.transform.Find("!").gameObject.SetActive(true);
             clueSide2Found = true;
         }
         if (clueSide3 && clueSide3Found == false) {
             lineS3.gameObject.SetActive(true);
+            clueS3.transform.Find("?").gameObject.SetActive(false);
+            clueS3.transform.Find("!").gameObject.SetActive(true);
             clueSide3Found = true;
         }
         if (clueSide4 && clueSide4Found == false) {
             lineS4.gameObject.SetActive(true);
+            clueS4.transform.Find("?").gameObject.SetActive(false);
+            clueS4.transform.Find("!").gameObject.SetActive(true);
             clueSide4Found = true;
         }          
+    }
+
+    public void GetClue(ClueDisplay clueDialogue) {
+            clueObject.SetActive(true);
+            animator.SetBool("isOpen", true);
+            clueName.text = clueDialogue.name;
+            clueContent.text = clueDialogue.sentence;
+    }
+
+    public void EndDialogue()
+    {
+        animator.SetBool("isOpen", false);
     }
 }

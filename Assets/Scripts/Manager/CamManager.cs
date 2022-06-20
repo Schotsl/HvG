@@ -9,7 +9,7 @@ public class CamManager : MonoBehaviour
     private PlayerInputActions playerInputActions;
 
     public GameObject mobileUI;
-
+    public GameObject clueContainer;
 
     private void Awake() {
         playerInputActions = new PlayerInputActions();
@@ -34,6 +34,7 @@ public class CamManager : MonoBehaviour
         cam1.SetActive(!Globals.isInMap);
         cam2.SetActive(Globals.isInMap);
         mobileUI.SetActive(!Globals.isInMap);
+        FindObjectOfType<ClueManager>().EndDialogue();    
     }
 
     // Update is called once per frame
