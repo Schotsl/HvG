@@ -9,6 +9,4 @@ public class Globals : MonoBehaviour
     public static bool isDialoguing;
 
     public static WebSocket websocket;
-
-    public static bool triggering;
 }

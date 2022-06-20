@@ -6,8 +6,30 @@ public class DialogueTrigger : MonoBehaviour
 
     public GameObject canTalk;
 
+    private bool isNear;
+
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        if (isNear) {
+            FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if (target.tag == "Player") 
+        {
+            canTalk.SetActive(true);
+            isNear = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D target)
+    {
+        if (target.tag == "Player")
+        {
+            canTalk.SetActive(false);
+            isNear = false;
+        }
     }
 }
