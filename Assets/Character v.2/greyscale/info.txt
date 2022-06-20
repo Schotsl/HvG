@@ -1,0 +1,17 @@
+
+How to use modular clothing
+
+Use basic_grey (clothes) as base and add the detail (modular) you want:
+	floral, overalls, sailor, skull, sporty, stripe
+	
+"button_grey" works for clown outfit and pumpkin outfit
+
+"shoes_grey" works for all outfits besides "witch_grey"
+
+"gloves_grey" works for clown, pumpkin and spooky
+
+
+Modular hair
+
+Use "braids_tie_grey" on top of braids to adjust color of hair ties
+	

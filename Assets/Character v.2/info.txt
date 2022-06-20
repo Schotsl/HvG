@@ -1,0 +1,59 @@
+
+GRID SIZE 32x32
+CELL SIZE MERGED: 256x1568
+
+WALK FR: 100 
+Cell Size: 256x128
+
+JUMP FR: 100; 200; 100; 120; 100
+Cell Size: 160x128
+
+PICK UP FR: 150; 150; 100; 100; 150
+Cell Size: 160x128
+
+CARRY FR:100 
+Cell Size: 256x128
+(char moved  up 1px)
+
+SWORD FR: 100; 200; 80; 100
+Cell Size: 128x128
+
+BLOCK Cell Size: 32x128
+
+HURT Cell Size: 32x128
+
+DIE FR: 500
+Cell Size: 64x32
+
+PICKAXE/ AXE FR: 100; 100; 250; 60; 100
+Cell Size: 160x128
+
+WATER FR: 300; 600
+Cell Size: 64x128
+(char moved up 5 px)
+
+HOE FR: 200; 150; 200; 200; 200
+Cell Size: 160x128
+(down: char moved up 8 px; left/right char moved up 1 px)
+
+FISHING L/R FR: 100; 100; 250; 60; 100
+FISHING U/D FR: 100; 250; 60; 100; 100
+Cell Size: 160x128
+(char moved up 4 px)
+
+LAYERS
+1. Characters
+2. Eyes ->Blush/Lipstick
+3. Clothes: Shirt -> Pants -> Shoes
+4. Hair
+5. Accessories Beard -> Glasses -> Hat
+
+
+
+
+
+
+
+
+
+
