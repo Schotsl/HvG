@@ -2299,6 +2299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM2
   clueDialogue:
     name: Where is Bobby?
     sentence: That ice cream was probably from Bobby. Where could he have gone?
@@ -2600,6 +2601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM1
   clueDialogue:
     name: Ice Cream
     sentence: There is a slightly melted ice cream on the ground. How could this
@@ -2874,6 +2876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM6
   clueDialogue:
     name: Corruption!
     sentence: Why did these documents get thrown out? Maybe we can find that car!
@@ -3296,6 +3299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM4
   clueDialogue:
     name: Taking matters into our own hands
     sentence: Something is definitely wrong here. Maybe we can find information at
@@ -5582,6 +5586,7 @@ GameObject:
   - component: {fileID: 466163997}
   - component: {fileID: 466163996}
   - component: {fileID: 466163995}
+  - component: {fileID: 466163998}
   m_Layer: 5
   m_Name: ClueS1
   m_TagString: Untagged
@@ -5694,6 +5699,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466163993}
   m_CullTransparentMesh: 1
+--- !u!114 &466163998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466163993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueName: ClueS1
+  clueDialogue:
+    name: 
+    sentence: 
 --- !u!1 &476031230
 GameObject:
   m_ObjectHideFlags: 0
@@ -5706,6 +5727,7 @@ GameObject:
   - component: {fileID: 476031234}
   - component: {fileID: 476031233}
   - component: {fileID: 476031232}
+  - component: {fileID: 476031235}
   m_Layer: 5
   m_Name: ClueS3
   m_TagString: Untagged
@@ -5818,6 +5840,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476031230}
   m_CullTransparentMesh: 1
+--- !u!114 &476031235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476031230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueName: ClueS3
+  clueDialogue:
+    name: 
+    sentence: 
 --- !u!1 &496392953
 GameObject:
   m_ObjectHideFlags: 0
@@ -6455,6 +6493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM2.5
   clueDialogue:
     name: Park
     sentence: Maybe Bobby could have gone to the park?
@@ -11053,6 +11092,7 @@ GameObject:
   - component: {fileID: 955700010}
   - component: {fileID: 955700009}
   - component: {fileID: 955700008}
+  - component: {fileID: 955700011}
   m_Layer: 5
   m_Name: ClueS4
   m_TagString: Untagged
@@ -11165,6 +11205,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955700006}
   m_CullTransparentMesh: 1
+--- !u!114 &955700011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955700006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueName: ClueS4
+  clueDialogue:
+    name: 
+    sentence: 
 --- !u!1 &985932416
 GameObject:
   m_ObjectHideFlags: 0
@@ -12503,6 +12559,7 @@ GameObject:
   - component: {fileID: 1182023053}
   - component: {fileID: 1182023052}
   - component: {fileID: 1182023051}
+  - component: {fileID: 1182023054}
   m_Layer: 5
   m_Name: ClueS2
   m_TagString: Untagged
@@ -12615,6 +12672,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182023049}
   m_CullTransparentMesh: 1
+--- !u!114 &1182023054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182023049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clueName: ClueS2
+  clueDialogue:
+    name: 
+    sentence: 
 --- !u!1 &1195627843
 GameObject:
   m_ObjectHideFlags: 0
@@ -14161,6 +14234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM5
   clueDialogue:
     name: The tracks end
     sentence: The police station is closed! Maybe there is another way in?
@@ -25362,6 +25436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingRadius: 1
+  idleRandomly: 0
 --- !u!114 &1640266773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25549,6 +25624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: ClueM3
   clueDialogue:
     name: Investigating!
     sentence: According to the weird guy at the sewer the police doesn't seem too
@@ -26601,41 +26677,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84cf6718ccc5efa419250afe82e73c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clueM1: {fileID: 36420216}
-  clueM2: {fileID: 23275757}
-  clueM2_5: {fileID: 556254207}
-  clueM3: {fileID: 1653256912}
-  clueM4: {fileID: 186099928}
-  clueM5: {fileID: 1330865026}
-  clueM6: {fileID: 88916618}
-  clueM7: {fileID: 2130512527}
-  clueS1: {fileID: 466163993}
-  clueS2: {fileID: 1182023049}
-  clueS3: {fileID: 476031230}
-  clueS4: {fileID: 955700006}
-  lineM1: {fileID: 1791133003}
-  lineM2: {fileID: 848066850}
-  lineM2_5: {fileID: 1219595531}
-  lineM3: {fileID: 1787102925}
-  lineM4: {fileID: 1339296986}
-  lineM5: {fileID: 1933190252}
-  lineM6: {fileID: 2028858430}
-  lineS1: {fileID: 1670947648}
-  lineS2: {fileID: 787150536}
-  lineS3: {fileID: 34281408}
-  lineS4: {fileID: 1513848548}
-  clue1: 0
-  clue2: 0
-  clue2_5: 0
-  clue3: 0
-  clue4: 0
-  clue5: 0
-  clue6: 0
-  clue7: 0
-  clueSide1: 0
-  clueSide2: 0
-  clueSide3: 0
-  clueSide4: 0
+  clueList:
+  - clueFound: 0
+    clueName: ClueM1
+    clueLine: {fileID: 0}
+    clueObject: {fileID: 36420216}
+  - clueFound: 0
+    clueName: ClueM2
+    clueLine: {fileID: 1791133003}
+    clueObject: {fileID: 23275757}
+  - clueFound: 0
+    clueName: ClueM2.5
+    clueLine: {fileID: 1219595531}
+    clueObject: {fileID: 556254207}
+  - clueFound: 0
+    clueName: ClueM3
+    clueLine: {fileID: 848066850}
+    clueObject: {fileID: 1653256912}
+  - clueFound: 0
+    clueName: ClueM4
+    clueLine: {fileID: 1787102925}
+    clueObject: {fileID: 186099928}
+  - clueFound: 0
+    clueName: ClueM5
+    clueLine: {fileID: 1339296986}
+    clueObject: {fileID: 1330865026}
+  - clueFound: 0
+    clueName: ClueM6
+    clueLine: {fileID: 1933190252}
+    clueObject: {fileID: 88916618}
+  - clueFound: 0
+    clueName: ClueM7
+    clueLine: {fileID: 2028858430}
+    clueObject: {fileID: 2130512527}
+  - clueFound: 0
+    clueName: ClueS1
+    clueLine: {fileID: 1670947648}
+    clueObject: {fileID: 466163993}
+  - clueFound: 0
+    clueName: ClueS2
+    clueLine: {fileID: 787150536}
+    clueObject: {fileID: 1182023049}
+  - clueFound: 0
+    clueName: ClueS3
+    clueLine: {fileID: 34281408}
+    clueObject: {fileID: 476031230}
+  - clueFound: 0
+    clueName: ClueS4
+    clueLine: {fileID: 1513848548}
+    clueObject: {fileID: 955700006}
   clueObject: {fileID: 245023154}
   clueName: {fileID: 913677441}
   clueContent: {fileID: 436376979}
@@ -28400,7 +28490,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.3333334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -28782,6 +28872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec6b29a31445845a4bc00b5302bdcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clueName: 
   clueDialogue:
     name: Thanks for playing!
     sentence: This is the demo of MELTED. It was made in 2.5 weeks by CMD students.
