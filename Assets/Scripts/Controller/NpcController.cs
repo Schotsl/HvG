@@ -17,6 +17,9 @@ public class NpcController : MonoBehaviour
     [Header("The max square radius a NPC can move")]
     public float movingRadius;
 
+    [Header("Should the NPC idle randomly")]
+    public bool idleRandomly;
+
     private void Start()
     {
         websocketObject = GameObject.Find("WebsocketManager");
