@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        Globals.triggering = false;
     }
 
     // Update is called once per frame
@@ -60,19 +59,6 @@ public class PlayerController : MonoBehaviour
         if (playerInputActions.Player.PauseKey.triggered)
         {
             pauseController.Toggle();
-        }
-        if (Globals.triggering)
-        {
-            triggerNpc.transform.GetChild(0).gameObject.SetActive(true);
-            previousNpc = triggerNpc;
-        }
-        else
-        {
-            if (previousNpc != null)
-            {
-                previousNpc.transform.GetChild(0).gameObject.SetActive(false);
-                previousNpc = null;
-            }
         }
     }
 
@@ -130,25 +116,5 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "NPC")
-        {
-            Globals.triggering = true;
-            triggerNpc = other.gameObject;
-
-            animator.SetBool("isMoving", false);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "NPC")
-        {
-            Globals.triggering = false;
-            triggerNpc = null;
-        }
     }
 }
