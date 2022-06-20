@@ -52,10 +52,10 @@ public class PlayerController : MonoBehaviour
     // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
     void Update()
     {
-        // if (SystemInfo.deviceType == DeviceType.Handheld)
-        // {
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
             movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
-        // }
+        }
 
         if (playerInputActions.Player.PauseKey.triggered)
         {
