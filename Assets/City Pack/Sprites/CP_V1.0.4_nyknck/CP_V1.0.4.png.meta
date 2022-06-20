@@ -575,8 +575,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -609,6 +609,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -4182,7 +4206,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CP_V1.0.4_93: 8522194331684196552
       CP_V1.0.4_59: -8927277847382098386
       CP_V1.0.4_74: 350915469310522167
       CP_V1.0.4_125: 5933343082517474035
@@ -4256,18 +4279,18 @@ TextureImporter:
       CP_V1.0.4_90: 5664179013910990040
       CP_V1.0.4_21: 8048336185474192458
       CP_V1.0.4_126: 2649354248252553833
-      CP_V1.0.4_13: -4232856370398728752
-      CP_V1.0.4_3: 6121683534337745368
-      CP_V1.0.4_96: -228704703356084805
       CP_V1.0.4_62: -6386699115856784368
-      CP_V1.0.4_4: 3777559525193862382
-      CP_V1.0.4_7: 5054403134209936823
-      CP_V1.0.4_85: 4672075706544786686
+      CP_V1.0.4_13: -4232856370398728752
       CP_V1.0.4_98: 2407429496607507848
+      CP_V1.0.4_96: -228704703356084805
+      CP_V1.0.4_3: 6121683534337745368
+      CP_V1.0.4_159: -6335142615360024222
+      CP_V1.0.4_85: 4672075706544786686
+      CP_V1.0.4_4: 3777559525193862382
       CP_V1.0.4_110: 8716243340102386226
       CP_V1.0.4_71: 3181614506731337038
-      CP_V1.0.4_159: -6335142615360024222
       CP_V1.0.4_162: -4884298614618858292
+      CP_V1.0.4_7: 5054403134209936823
       CP_V1.0.4_26: -5508085127321791637
       CP_V1.0.4_91: 3696614548998766596
       CP_V1.0.4_11: 5373855539387855405
@@ -4349,6 +4372,7 @@ TextureImporter:
       CP_V1.0.4_58: 2751951958336284784
       CP_V1.0.4_148: -9039403789401443899
       CP_V1.0.4_168: -9120439792357804467
+      CP_V1.0.4_93: 8522194331684196552
       CP_V1.0.4_41: 90108948353388709
       CP_V1.0.4_83: 8678032213614492729
   spritePackingTag: 
