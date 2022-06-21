@@ -10,6 +10,7 @@ public class CamManager : MonoBehaviour
 
     public GameObject mobileUI;
     public GameObject clueContainer;
+    public GameObject clueMapContainer;
 
     private void Awake() {
         playerInputActions = new PlayerInputActions();
@@ -34,7 +35,8 @@ public class CamManager : MonoBehaviour
         cam1.SetActive(!Globals.isInMap);
         cam2.SetActive(Globals.isInMap);
         mobileUI.SetActive(!Globals.isInMap);
-        FindObjectOfType<ClueManager>().EndDialogue();    
+        FindObjectOfType<ClueManager>().EndDialogue();
+        clueMapContainer.GetComponent<UnityEngine.EventSystems.BaseRaycaster>().enabled = Globals.isInMap;    
     }
 
     // Update is called once per frame

@@ -19,16 +19,20 @@ public class DialogueManager : MonoBehaviour
 
     public Animator animator;
 
+    private string clueNumber;
+
     void Start()
     {
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, string clueNumber = "")
     {
             dialogueObject.SetActive(true);
 
             animator.SetBool("isOpen", true);
+
+            this.clueNumber = clueNumber;
 
             dialogueName.text = dialogue.name;
 
@@ -84,5 +88,9 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("isOpen", false);
+        if (this.clueNumber != "") {
+            FindObjectOfType<ClueManager>().FoundClue(this.clueNumber);
+            Debug.Log(this.clueNumber);
+        }
     }
 }

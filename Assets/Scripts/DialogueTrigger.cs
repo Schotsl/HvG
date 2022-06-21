@@ -6,12 +6,14 @@ public class DialogueTrigger : MonoBehaviour
 
     public GameObject canTalk;
 
+    public string clueNumber;
+
     private bool isNear;
 
     public void TriggerDialogue()
     {
         if (isNear) {
-            FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+            FindObjectOfType<DialogueManager>().StartDialogue(dialogue, clueNumber);
         }
     }
 
