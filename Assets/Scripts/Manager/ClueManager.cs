@@ -23,9 +23,11 @@ public class ClueManager : MonoBehaviour
     [NonReorderable]
     public List<ClueWrapper> clueList;
 
-    public Animator clueAnimator;
-    public Animator animator2;
+    public Animator clueContainer;
+    public Animator clueNotification;
+
     public GameObject clueObject;
+
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
 
@@ -52,7 +54,7 @@ public class ClueManager : MonoBehaviour
 
         // Enable the other helper classes
         clueObject.SetActive(true);
-        clueAnimator.SetBool("isOpen", false);
+        clueContainer.SetBool("isOpen", false);
 
         // Listen for clues from the other player
         websocketScript.AddClue(ReceiveClue);
@@ -123,7 +125,7 @@ public class ClueManager : MonoBehaviour
 
         // Enable the clue container for the text and title
         clueObject.SetActive(true);
-        clueAnimator.SetBool("isOpen", true);
+        clueContainer.SetBool("isOpen", true);
 
         bool clueFound = clueWrapper.clueFound;
 
@@ -134,12 +136,14 @@ public class ClueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        clueAnimator.SetBool("isOpen", false);
+        clueContainer.SetBool("isOpen", false);
     }
 
     IEnumerator ClueNotification() {
-        animator2.SetBool("isOpen", true);
+        clueNotification.SetBool("isOpen", true);
+        
         yield return new WaitForSeconds(2);
-        animator2.SetBool("isOpen", false);
+        
+        clueNotification.SetBool("isOpen", false);
     }
 }
