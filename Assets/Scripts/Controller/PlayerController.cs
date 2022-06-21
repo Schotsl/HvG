@@ -53,7 +53,19 @@ public class PlayerController : MonoBehaviour
     {
         if (SystemInfo.deviceType == DeviceType.Handheld)
         {
-            movementInput = new Vector2(joystick.Horizontal, joystick.Vertical);
+            float ySpeed = (float)joystick.Vertical;
+            float xSpeed = (float)joystick.Horizontal;
+
+            if (ySpeed > 0) ySpeed += .15f; 
+            if (ySpeed < 0) ySpeed -= .15f; 
+
+            if (xSpeed > 0) xSpeed += .15f; 
+            if (xSpeed < 0) xSpeed -= .15f; 
+
+            xSpeed = Mathf.Round(xSpeed);
+            ySpeed = Mathf.Round(ySpeed);
+
+            movementInput = new Vector2(xSpeed, ySpeed);
         }
 
         if (playerInputActions.Player.PauseKey.triggered)
