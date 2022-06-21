@@ -65,7 +65,7 @@ public class ClueManager : MonoBehaviour
             GameObject clueLine = clueWrapper.clueLine;
             GameObject clueObject = clueWrapper.clueObject;
 
-            clueObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
+            clueWrapper.clueFound = true;
 
             // We can always remove the question mark
             clueObject.transform.Find("?").gameObject.SetActive(false);
@@ -74,6 +74,9 @@ public class ClueManager : MonoBehaviour
             {
                 // If there is a photo we'll switch too that
                 clueObject.transform.Find("Image").gameObject.SetActive(true);
+
+                // We only need to expand the icon if it's a main clue
+                clueObject.transform.localScale += new Vector3(0.9f, 0.9f, 0);
             }
             else
             {
@@ -105,7 +108,7 @@ public class ClueManager : MonoBehaviour
         clueObject.SetActive(true);
 
         bool clueFound = clueWrapper.clueFound;
-
+        Debug.Log(clueFound);
         clueName.text = clueFound ? clueDialogue.name : "???";
         clueContent.text = clueFound ? clueDialogue.sentence : "???";
     }
