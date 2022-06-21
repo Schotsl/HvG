@@ -1,0 +1,48 @@
+
+HAIR
+1. Black
+2. Blonde
+3. Brown
+4. Brown Light
+5. Copper
+6. Emerald
+7. Green
+8. Grey
+9. Lilac
+10. Navy
+11. Pink
+12. Purple
+13. Red
+14. Turquoise
+
+Clothes:
+1. Black
+2. Blue
+3. Blue Light
+4. Brown
+5. Green
+6. Green Light
+7. Pink
+8. Purple
+9. Red
+10. White/Grey
+
+Eyes:
+1. Black
+2. Blue 
+3. Blue Light
+4. Brown
+5. Brown Dark
+6. Brown Light
+7. Green
+8. Green Dark
+9. Green Light
+10. Grey
+11. Grey Light
+12. Pink
+13. Pink Light
+14. Red
+
+Lipstick and Blush are sorted from light to dark.
+
+ 
