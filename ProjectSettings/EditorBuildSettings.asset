@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneCity.unity
     guid: ab8aba0c781b7484491242107fea32b2
+  - enabled: 1
+    path: Assets/Scenes/GameMap.unity
+    guid: b53f31e76020f9b429b1110ad32ecbbc
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 18c95a4466bef4dbfb9f561a1e3ac452, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 9a4f669c6dd2f44848ba0ba7a371a4b7, type: 2}
