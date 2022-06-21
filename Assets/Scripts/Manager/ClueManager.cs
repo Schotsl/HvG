@@ -24,6 +24,7 @@ public class ClueManager : MonoBehaviour
     public List<ClueWrapper> clueList;
 
     public Animator clueAnimator;
+    public Animator animator2;
     public GameObject clueObject;
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
@@ -80,7 +81,9 @@ public class ClueManager : MonoBehaviour
             GameObject clueObject = clueWrapper.clueObject;
 
             clueWrapper.clueFound = true;
+            StartCoroutine(ClueNotification());
 
+            
             // We can always remove the question mark
             clueObject.transform.Find("?").gameObject.SetActive(false);
 
@@ -132,5 +135,11 @@ public class ClueManager : MonoBehaviour
     public void EndDialogue()
     {
         clueAnimator.SetBool("isOpen", false);
+    }
+
+    IEnumerator ClueNotification() {
+        animator2.SetBool("isOpen", true);
+        yield return new WaitForSeconds(2);
+        animator2.SetBool("isOpen", false);
     }
 }
