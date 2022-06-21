@@ -27016,6 +27016,7 @@ MonoBehaviour:
     clueObject: {fileID: 955700006}
     clueChildren: []
   animator: {fileID: 245023156}
+  animator2: {fileID: 12696743}
   clueObject: {fileID: 245023154}
   clueName: {fileID: 913677441}
   clueContent: {fileID: 436376979}
