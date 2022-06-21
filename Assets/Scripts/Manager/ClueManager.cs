@@ -17,48 +17,62 @@ public class ClueWrapper
 
 public class ClueManager : MonoBehaviour
 {
+    private GameObject websocketObject;
+    private WebsocketManager websocketScript;
+
     [NonReorderable]
     public List<ClueWrapper> clueList;
 
-    public Animator animator;
+    public Animator clueAnimator;
     public GameObject clueObject;
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
 
-    // Start is called before the first frame update
     void Start()
     {
+        websocketObject = GameObject.Find("WebsocketManager");
+        websocketScript = websocketObject.GetComponent<WebsocketManager>();
+
+        // Disable every clue point and line
         clueList.ForEach(
             (clueItem) =>
             {
-                // bool clueFound = clueItem.clueFound;
-
-                // // clueItem.clueObject.SetActive(true);
-
                 clueItem.clueObject.SetActive(false);
 
                 if (clueItem.clueLine)
                 {
                     clueItem.clueLine.SetActive(false);
                 }
-
-                // if (clueFound)
-                // {
-                //     clueItem.clueObject.transform.Find("?").gameObject.SetActive(false);
-                //     clueItem.clueObject.transform.Find("Image").gameObject.SetActive(true);
-                // }
             }
         );
 
+        // Only show to the first clue
         clueList[0].clueObject.SetActive(true);
 
+        // Enable the other helper classes
         clueObject.SetActive(true);
-        animator.SetBool("isOpen", false);
+        clueAnimator.SetBool("isOpen", false);
+
+        // Listen for clues from the other player
+        websocketScript.AddClue(ReceiveClue);
     }
 
-    public void FoundClue(string temp)
+    public void ReceiveClue(string target) 
     {
-        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == temp);
+        FoundClue(target, false);
+    }
+
+    public void FoundClue(string target, bool received = false)
+    {
+        // We'll always pass the clue along if even we've already found it
+        if (!received) {
+            ClueUpdate update = new ClueUpdate(target);
+
+            // Send the new clue to the other player
+            websocketScript.SendWebsocket(update);
+        }
+
+        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == target);
 
         if (!clueWrapper.clueFound)
         {
@@ -100,21 +114,23 @@ public class ClueManager : MonoBehaviour
         }
     }
 
-    public void GetClue(ClueDisplay clueDialogue, string temp)
+    public void GetClue(ClueDisplay clueDialogue, string target)
     {
-        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == temp);
+        ClueWrapper clueWrapper = clueList.Find(clueWrapper => clueWrapper.clueName == target);
 
-        animator.SetBool("isOpen", true);
+        // Enable the clue container for the text and title
         clueObject.SetActive(true);
+        clueAnimator.SetBool("isOpen", true);
 
         bool clueFound = clueWrapper.clueFound;
-        Debug.Log(clueFound);
+
+        // Fill the clue container with the text and title
         clueName.text = clueFound ? clueDialogue.name : "???";
         clueContent.text = clueFound ? clueDialogue.sentence : "???";
     }
 
     public void EndDialogue()
     {
-        animator.SetBool("isOpen", false);
+        clueAnimator.SetBool("isOpen", false);
     }
 }

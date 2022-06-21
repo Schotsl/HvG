@@ -19,9 +19,10 @@ public class ClueUpdate : Update
 {
     public string target;
 
-    public ClueUpdate()
+    public ClueUpdate(string target)
     {
         this.type = Type.Clue;
+        this.target = target;
     }
 }
 
@@ -79,7 +80,7 @@ public class SubscribeUpdate : Update
     }
 }
 
-public delegate void ClueCallback();
+public delegate void ClueCallback(string clue);
 
 public delegate void LaserCallback(bool triggered);
 
@@ -95,10 +96,9 @@ public class ClueListener
 
     public ClueCallback callback;
 
-    public ClueListener(ClueCallback callback, string target)
+    public ClueListener(ClueCallback callback)
     {
         this.callback = callback;
-        this.target = target;
     }
 }
 

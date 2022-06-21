@@ -164,9 +164,9 @@ public class WebsocketManager : MonoBehaviour
         }
     }
 
-    public void AddClue(ClueCallback callback, string target)
+    public void AddClue(ClueCallback callback)
     {
-        ClueListener listener = new ClueListener(callback, target);
+        ClueListener listener = new ClueListener(callback);
 
         clueListeners.Add(listener);
 
@@ -178,17 +178,14 @@ public class WebsocketManager : MonoBehaviour
         clueListeners.ForEach(
             (listener) =>
             {
-                if (listener.target == update.target)
-                {
-                    listener.callback();
-                }
+                listener.callback(update.target);
             }
         );
     }
 
-    public void RemoveClue(ClueCallback callback, string target)
+    public void RemoveClue(ClueCallback callback)
     {
-        ClueListener listener = new ClueListener(callback, target);
+        ClueListener listener = new ClueListener(callback);
 
         clueListeners.Remove(listener);
 
