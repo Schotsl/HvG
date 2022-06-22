@@ -8,6 +8,7 @@ public enum Type
     Position = 3,
     Subscribe = 4,
     Restoring = 5,
+    Health = 6,
 }
 
 public class Update
@@ -37,6 +38,17 @@ public class LaserUpdate : Update
         this.type = Type.Laser;
         this.target = target;
         this.triggered = triggered;
+    }
+}
+
+public class HealthUpdate : Update
+{
+    public int health;
+
+    public HealthUpdate(int health)
+    {
+        this.type = Type.Health;
+        this.health = health;
     }
 }
 
@@ -86,6 +98,8 @@ public delegate void ClueCallback(string clue);
 
 public delegate void LaserCallback(string laser, bool triggered);
 
+public delegate void HealthCallback(int health);
+
 public delegate void HostingCallback(bool success);
 
 public delegate void PositionCallback(float x, float y);
@@ -113,6 +127,17 @@ public class LaserListener
         this.callback = callback;
     }
 }
+
+public class HealthListener
+{
+    public HealthCallback callback;
+
+    public HealthListener(HealthCallback callback)
+    {
+        this.callback = callback;
+    }
+}
+
 
 public class HostingListener
 {
