@@ -9,7 +9,6 @@ public class CamManager : MonoBehaviour
     private PlayerInputActions playerInputActions;
 
     public GameObject mobileUI;
-    public GameObject clueContainer;
     public GameObject clueMapContainer;
 
     private void Awake() {

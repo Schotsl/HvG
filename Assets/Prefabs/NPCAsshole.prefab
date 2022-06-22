@@ -252,7 +252,7 @@ MonoBehaviour:
     name: 
     sentences: []
   canTalk: {fileID: 2013538243964259987}
-  clueNumber: ClueS3
+  clueNumber: ClueM2_5
   altCluenumber: 
 --- !u!1 &2013538243264991104
 GameObject:

@@ -2925,8 +2925,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueName: ClueS2
   clueDialogue:
-    name: Thanks alot
-    sentence: Fred Cunningham doesn't seem to know anything.
+    name: Donut interrupt me
+    sentence: The police has high priority on finishing their donut.
 --- !u!1 &1107097243005973915
 GameObject:
   m_ObjectHideFlags: 0
@@ -8899,9 +8899,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueName: ClueS3
   clueDialogue:
-    name: We live in a society
-    sentence: "Ruben van Fleet thinks this Bobby is just fine, surely that wouldn\u2019t
-      make a good game..."
+    name: Thanks a lot
+    sentence: Fred Cunningham doesn't seem to know anything other than the fact that
+      the kid left quickly.
 --- !u!1 &1107097244269781699
 GameObject:
   m_ObjectHideFlags: 0

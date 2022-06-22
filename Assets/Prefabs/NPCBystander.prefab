@@ -820,5 +820,5 @@ MonoBehaviour:
     name: 
     sentences: []
   canTalk: {fileID: 7488432156770362398}
-  clueNumber: ClueS2
+  clueNumber: ClueS3
   altCluenumber: 
