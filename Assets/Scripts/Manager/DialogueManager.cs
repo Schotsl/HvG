@@ -21,29 +21,40 @@ public class DialogueManager : MonoBehaviour
 
     private string clueNumber;
 
+    //werkt niet helemaal
+    private bool hasTalked;
+
     void Start()
     {
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue, string clueNumber = "")
-    {
-            dialogueObject.SetActive(true);
+    public void StartDialogue(Dialogue dialogue, Dialogue altDialogue, bool extendDialogue, bool hasTalked, string clueNumber = "")
+    {            
+        dialogueObject.SetActive(true);
+        animator.SetBool("isOpen", true);
+        this.clueNumber = clueNumber;
+        this.hasTalked = hasTalked;
+        Globals.isDialoguing = true;
+        dialogueName.text = dialogue.name;
+        sentences.Clear();
+        Debug.Log(altDialogue.sentences);
+        Debug.Log(hasTalked);
 
-            animator.SetBool("isOpen", true);
-
-            this.clueNumber = clueNumber;
-
-            dialogueName.text = dialogue.name;
-
-            sentences.Clear();
-
-            Globals.isDialoguing = true;
-
+        if (!this.hasTalked || !extendDialogue) {
+            FindObjectOfType<DialogueTrigger>().UpdateTalked();
             foreach (string sentence in dialogue.sentences)
             {
                 sentences.Enqueue(sentence);
             }
+
+        } else if (extendDialogue) {
+
+            foreach (string sentence in altDialogue.sentences)
+            {
+                sentences.Enqueue(sentence);
+            }
+        }
 
             DisplayNextSentence();
     }
@@ -90,7 +101,6 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("isOpen", false);
         if (this.clueNumber != "") {
             FindObjectOfType<ClueManager>().FoundClue(this.clueNumber);
-            Debug.Log(this.clueNumber);
         }
     }
 }
