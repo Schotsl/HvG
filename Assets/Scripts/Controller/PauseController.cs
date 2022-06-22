@@ -9,6 +9,7 @@ public class PauseController : MonoBehaviour
     public GameObject PauseMain;
     public GameObject PauseOptions;
     public GameObject PauseBtn;
+    public GameObject ClueNotifications;
 
     void Start()
     {
@@ -30,5 +31,6 @@ public class PauseController : MonoBehaviour
         PauseMain.SetActive(Globals.isPaused);
         PauseBtn.SetActive(!Globals.isPaused);
         PauseOptions.SetActive(false);
+        ClueNotifications.SetActive(!Globals.isPaused);
     }
 }

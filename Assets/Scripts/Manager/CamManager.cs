@@ -12,6 +12,8 @@ public class CamManager : MonoBehaviour
     public GameObject clueMapContainer;
     private GameObject gameUI;
 
+    public AudioSource pling;
+
     private void Awake() {
         playerInputActions = new PlayerInputActions();
         Globals.isInMap = false;
@@ -35,6 +37,7 @@ public class CamManager : MonoBehaviour
     public void UpdateCamera(bool inMap){
         cam1.SetActive(!Globals.isInMap);
         cam2.SetActive(Globals.isInMap);
+        pling.Play();
 
         if (SystemInfo.deviceType == DeviceType.Handheld) {
             mobileUI.SetActive(!Globals.isInMap);
