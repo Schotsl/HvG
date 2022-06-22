@@ -9,19 +9,23 @@ public class SoundManager : MonoBehaviour
 {
 
     // for managing sound https://www.youtube.com/watch?v=yWCHaTwVblk
-    public Slider volumeSlider;
+    public Slider musicSlider;
     public Slider soundFXSlider;
+    public AudioMixer masterMixer;
 
-    public enum AudioTypes {soundFX, music}
-    public AudioTypes audioType;
 
-    public AudioMixerGroup musicMixerGroup;
-    public AudioMixerGroup soundFXMixerGroup;
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerPrefs.HasKey("musicVolume")) {
+        if (!PlayerPrefs.HasKey("musicVolume") && !PlayerPrefs.HasKey("soundFXVolume")) {
             PlayerPrefs.SetFloat("musicVolume", 1);
+            PlayerPrefs.SetFloat("soundFXVolume", 1);
+            Load();
+        } else if (!PlayerPrefs.HasKey("musicVolume")) {
+            PlayerPrefs.SetFloat("musicVolume", 1);
+            Load();
+        } else if (!PlayerPrefs.HasKey("soundFXVolume")) {
+            PlayerPrefs.SetFloat("soundFXVolume", 1);
             Load();
         } else {
             Load();
@@ -29,15 +33,18 @@ public class SoundManager : MonoBehaviour
     }
 
     public void ChangeVolume() {
-        AudioListener.volume = volumeSlider.value;
+        masterMixer.SetFloat("musicVolume", Mathf.Log10(musicSlider.value) * 20);
+        masterMixer.SetFloat("soundFXVolume", Mathf.Log10(soundFXSlider.value) * 20);
         Save();
     }
 
     private void Load() {
-        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        soundFXSlider.value = PlayerPrefs.GetFloat("soundFXVolume");
     }
 
     private void Save() {
-        PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
+        PlayerPrefs.SetFloat("musicVolume", musicSlider.value);
+        PlayerPrefs.SetFloat("soundFXVolume", soundFXSlider.value);
     }
 }
