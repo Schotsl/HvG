@@ -34,7 +34,11 @@ public class CamManager : MonoBehaviour
     public void UpdateCamera(bool inMap){
         cam1.SetActive(!Globals.isInMap);
         cam2.SetActive(Globals.isInMap);
-        mobileUI.SetActive(!Globals.isInMap);
+
+        if (SystemInfo.deviceType == DeviceType.Handheld) {
+            mobileUI.SetActive(!Globals.isInMap);
+        }
+
         FindObjectOfType<ClueManager>().EndDialogue();
         clueMapContainer.GetComponent<UnityEngine.EventSystems.BaseRaycaster>().enabled = Globals.isInMap;    
     }
