@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - gameUI
   layers:
   - Default
   - TransparentFX

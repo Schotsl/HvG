@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 1810628708797793223}
   m_Layer: 5
   m_Name: TriggerArea
-  m_TagString: Untagged
+  m_TagString: gameUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
