@@ -25,13 +25,16 @@ public class DialogueManager : MonoBehaviour
     //werkt niet helemaal
     private bool hasTalked;
 
+    public AudioSource interactionSoundEffect;
+
     void Start()
     {
         sentences = new Queue<string>();
     }
 
     public void StartDialogue(Dialogue dialogue, Dialogue altDialogue, bool extendDialogue, bool hasTalked, string clueNumber = "", string altCluenumber = "")
-    {            
+    {    
+        interactionSoundEffect.Play();
         dialogueObject.SetActive(true);
         animator.SetBool("isOpen", true);
         this.clueNumber = clueNumber;
@@ -61,12 +64,14 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        if (isTyping == true)
+        if (isTyping)
         {
             CompleteText();
             StopAllCoroutines();
             isTyping = false;
             return;
+        } else if (!isTyping) {
+            interactionSoundEffect.Play();
         }
         if (sentences.Count == 0)
         {

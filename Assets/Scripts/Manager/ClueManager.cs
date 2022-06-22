@@ -32,6 +32,10 @@ public class ClueManager : MonoBehaviour
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
 
+    public AudioSource clueSSound;
+    public AudioSource clueMSound;
+    public AudioSource pling;
+
     void Start()
     {
         websocketObject = GameObject.Find("WebsocketManager");
@@ -91,6 +95,11 @@ public class ClueManager : MonoBehaviour
 
             if (notification) {
                 StartCoroutine(ClueNotification());
+                if (target.Substring(0, 5) == "ClueM") {
+                    clueMSound.Play();
+                } else if (target.Substring(0, 5) == "ClueS") {
+                    clueSSound.Play();
+                }
             }
             
             // We can always remove the question mark
@@ -139,6 +148,7 @@ public class ClueManager : MonoBehaviour
         // Fill the clue container with the text and title
         clueName.text = clueFound ? clueDialogue.name : "???";
         clueContent.text = clueFound ? clueDialogue.sentence : "???";
+        pling.Play();
     }
 
     public void EndDialogue()
