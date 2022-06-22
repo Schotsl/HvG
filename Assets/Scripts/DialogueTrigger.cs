@@ -11,20 +11,22 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject canTalk;
 
     public string clueNumber;
+    public string altCluenumber;
 
     private bool isNear;
 
-    public bool hasTalked = false;
+    private bool hasTalked;
+
+    void Start() {
+        hasTalked = false;
+    }
 
     public void TriggerDialogue()
     {
         if (isNear) {
-            FindObjectOfType<DialogueManager>().StartDialogue(dialogue, altDialogue, extendDialogue, hasTalked, clueNumber);
+            FindObjectOfType<DialogueManager>().StartDialogue(dialogue, altDialogue, extendDialogue, hasTalked, clueNumber, altCluenumber);
+            hasTalked = true;
         }
-    }
-
-    public void UpdateTalked() {
-        hasTalked = true;
     }
 
     void OnTriggerEnter2D(Collider2D target)
@@ -33,7 +35,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             canTalk.SetActive(true);
             isNear = true;
-        }
+        } 
     }
 
     void OnTriggerExit2D(Collider2D target)

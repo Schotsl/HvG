@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
     public Animator animator;
 
     private string clueNumber;
+    private string altClueNumber;
 
     //werkt niet helemaal
     private bool hasTalked;
@@ -29,11 +30,12 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue, Dialogue altDialogue, bool extendDialogue, bool hasTalked, string clueNumber = "")
+    public void StartDialogue(Dialogue dialogue, Dialogue altDialogue, bool extendDialogue, bool hasTalked, string clueNumber = "", string altCluenumber = "")
     {            
         dialogueObject.SetActive(true);
         animator.SetBool("isOpen", true);
         this.clueNumber = clueNumber;
+        this.altClueNumber = altCluenumber;
         this.hasTalked = hasTalked;
         Globals.isDialoguing = true;
         dialogueName.text = dialogue.name;
@@ -42,7 +44,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log(hasTalked);
 
         if (!this.hasTalked || !extendDialogue) {
-            FindObjectOfType<DialogueTrigger>().UpdateTalked();
+            
             foreach (string sentence in dialogue.sentences)
             {
                 sentences.Enqueue(sentence);
@@ -99,8 +101,12 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("isOpen", false);
-        if (this.clueNumber != "") {
+        if (this.clueNumber != "" && !this.hasTalked) {
             FindObjectOfType<ClueManager>().FoundClue(this.clueNumber);
+        } 
+        else if (this.altClueNumber != "" && this.hasTalked) {
+            FindObjectOfType<ClueManager>().FoundClue(this.altClueNumber);
         }
+
     }
 }
