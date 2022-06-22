@@ -8,6 +8,7 @@ public class ClueWrapper
 {
     public bool clueFound;
     public string clueName;
+    public string cluePrevious;
 
     public GameObject clueLine;
     public GameObject clueObject;
@@ -65,7 +66,7 @@ public class ClueManager : MonoBehaviour
         FoundClue(target, false);
     }
 
-    public void FoundClue(string target, bool received = false)
+    public void FoundClue(string target, bool received = false, bool notification = true)
     {
         // We'll always pass the clue along if even we've already found it
         if (!received) {
@@ -79,12 +80,18 @@ public class ClueManager : MonoBehaviour
 
         if (!clueWrapper.clueFound)
         {
+            if (clueWrapper.cluePrevious != "") {
+                FoundClue(clueWrapper.cluePrevious, true, false);
+            }
+
             GameObject clueLine = clueWrapper.clueLine;
             GameObject clueObject = clueWrapper.clueObject;
 
             clueWrapper.clueFound = true;
-            StartCoroutine(ClueNotification());
 
+            if (notification) {
+                StartCoroutine(ClueNotification());
+            }
             
             // We can always remove the question mark
             clueObject.transform.Find("?").gameObject.SetActive(false);

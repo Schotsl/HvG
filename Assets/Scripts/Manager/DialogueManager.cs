@@ -40,8 +40,6 @@ public class DialogueManager : MonoBehaviour
         Globals.isDialoguing = true;
         dialogueName.text = dialogue.name;
         sentences.Clear();
-        Debug.Log(altDialogue.sentences);
-        Debug.Log(hasTalked);
 
         if (!this.hasTalked || !extendDialogue) {
             
