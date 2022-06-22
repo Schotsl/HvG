@@ -11,6 +11,7 @@ public class WebsocketManager : MonoBehaviour
 
     public List<ClueListener> clueListeners;
     public List<LaserListener> laserListeners;
+    public List<HealthListener> healthListeners;
     public List<HostingListener> hostingListeners;
     public List<PositionListener> positionListeners;
     public List<SubscribeListener> subscribeListeners;
@@ -26,6 +27,7 @@ public class WebsocketManager : MonoBehaviour
     {
         clueListeners = new List<ClueListener>();
         laserListeners = new List<LaserListener>();
+        healthListeners = new List<HealthListener>();
         hostingListeners = new List<HostingListener>();
         positionListeners = new List<PositionListener>();
         subscribeListeners = new List<SubscribeListener>();
@@ -123,6 +125,10 @@ public class WebsocketManager : MonoBehaviour
                 ClueUpdate clueUpdate = JsonConvert.DeserializeObject<ClueUpdate>(message);
                 SendClue(clueUpdate);
                 break;
+            case Type.Health:
+                HealthUpdate healthUpdate = JsonConvert.DeserializeObject<HealthUpdate>(message);
+                SendHealth(healthUpdate);
+                break;
             case Type.Laser:
                 LaserUpdate laserUpdate = JsonConvert.DeserializeObject<LaserUpdate>(message);
                 SendLaser(laserUpdate);
@@ -153,6 +159,7 @@ public class WebsocketManager : MonoBehaviour
 
     public void SendWebsocket(object data)
     {
+        Debug.Log("We sending");
         queueList.Add(data);
     }
 
@@ -188,6 +195,34 @@ public class WebsocketManager : MonoBehaviour
         ClueListener listener = new ClueListener(callback);
 
         clueListeners.Remove(listener);
+
+        RestartListener();
+    }
+
+    public void AddHealth(HealthCallback callback)
+    {
+        HealthListener listener = new HealthListener(callback);
+
+        healthListeners.Add(listener);
+
+        RestartListener();
+    }
+
+    public void SendHealth(HealthUpdate update)
+    {
+        healthListeners.ForEach(
+            (listener) =>
+            {
+                listener.callback(update.health);
+            }
+        );
+    }
+
+    public void RemoveHealth(HealthCallback callback)
+    {
+        HealthListener listener = new HealthListener(callback);
+
+        healthListeners.Remove(listener);
 
         RestartListener();
     }

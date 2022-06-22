@@ -45,6 +45,7 @@ public class LaserController : MonoBehaviour
         string laserTarget = laserObject.name;
 
         LaserUpdate update = new LaserUpdate(laserTarget, laserState);
+        websocketScript.SendWebsocket(update);
 
         laserObject.SetActive(laserState);
     }
@@ -53,6 +54,9 @@ public class LaserController : MonoBehaviour
         laserList.ForEach((laserObject) => {
             if (laserObject.name == laserName) {
                 laserObject.SetActive(laserState);
+
+                LaserUpdate update = new LaserUpdate(laserTarget, laserState);
+                websocketScript.SendWebsocket(update);
             }
         });
     }

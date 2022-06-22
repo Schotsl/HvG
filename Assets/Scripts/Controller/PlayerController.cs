@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 // Takes and handles input and movement for a player character
 public class PlayerController : MonoBehaviour
 {
+    private GameObject websocketObject;
+    private WebsocketManager websocketScript;
+
     private int damageCount;
     private bool damageTaking;
 
@@ -47,6 +50,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        websocketObject = GameObject.Find("WebsocketManager");
+        websocketScript = websocketObject.GetComponent<WebsocketManager>();
+
+        websocketScript.AddHealth(RecieveHealth);
+
         pauseController = GetComponent<PauseController>();
         joystick = FindObjectOfType<Joystick>();
         rb = GetComponent<Rigidbody2D>();
@@ -155,23 +163,39 @@ public class PlayerController : MonoBehaviour
         if (target.tag == "Laser") 
         {
             if (!damageTaking) {
-                if (damageCount > 1) {
+                Image image = damageScreen.GetComponent<Image>();
+                Color color = image.color;
+
+                damageCount ++;
+                damageTaking = true;
+
+                moveSpeed = 0f;
+
+                // Turn the screen increasingly red
+                color.a = damageCount * 0.5f;
+                image.color = color;
+
+                HealthUpdate update = new HealthUpdate(damageCount);
+                websocketScript.SendWebsocket(update);
+
+                if (damageCount > 2) {
                     SceneManager.LoadScene(sceneName:"SceneOver");
-                } else {
-                    Image image = damageScreen.GetComponent<Image>();
-                    Color color = image.color;
-
-                    damageCount ++;
-                    damageTaking = true;
-
-                    moveSpeed = 0f;
-
-                    // Turn the screen increasingly red
-                    color.a = damageCount * 0.5f;
-                    image.color = color;
                 }
             }
         } 
+    }
+
+    void RecieveHealth(int damageHealth) {
+        Image image = damageScreen.GetComponent<Image>();
+        Color color = image.color;
+
+        // Turn the screen increasingly red
+        color.a = damageHealth * 0.5f;
+        image.color = color;
+
+        if (damageHealth > 2) {
+            SceneManager.LoadScene(sceneName:"SceneOver");
+        }
     }
 
     void OnTriggerExit2D(Collider2D target)

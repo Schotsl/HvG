@@ -40,7 +40,7 @@ public class HostWatcher : MonoBehaviour
     private void HostingResponse(bool success)
     {
         // Once a partner has been found we can go to the next scene
-        SceneManager.LoadScene(sceneName: "GameMap");
+        SceneManager.LoadScene(sceneName: "SceneCity");
 
         // Remove the listener since we won't be needing it
         websocketScript.RemoveHosting(HostingResponse);
