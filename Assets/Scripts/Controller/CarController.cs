@@ -102,6 +102,17 @@ public class CarController : MonoBehaviour
         if (diffrenceY > 0.05)
             speedY = targetPosition.y > currentPosition.y ? carSpeed : -carSpeed;
 
+        // This could probably be done a lot nicer but it works
+        if (speedX > 0) {
+            carRigidbody.rotation = 270;
+        } else if (speedX < 0) {
+            carRigidbody.rotation = 90;
+        } else if (speedY > 0) {
+            carRigidbody.rotation = 0;
+        } else if (speedY < 0) {
+            carRigidbody.rotation = 180;
+        }
+
         carRigidbody.velocity = new Vector2(speedX, speedY);
 
         // If the NPC stopped moving we can select a new target
