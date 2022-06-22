@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NPC
   - Laser
+  - gameUI
   layers:
   - Default
   - TransparentFX
