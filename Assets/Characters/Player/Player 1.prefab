@@ -216,9 +216,6 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   animator: {fileID: 4661790547088588001}
-  PauseUI: {fileID: 0}
-  PauseMain: {fileID: 0}
-  PauseOptions: {fileID: 0}
 --- !u!114 &8620489326935108283
 MonoBehaviour:
   m_ObjectHideFlags: 0
