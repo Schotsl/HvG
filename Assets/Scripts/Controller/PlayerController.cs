@@ -1,10 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // Takes and handles input and movement for a player character
 public class PlayerController : MonoBehaviour
 {
+    private int damageCount;
+    private bool damageTaking;
+
+    public GameObject damageScreen;
+
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
@@ -51,6 +58,19 @@ public class PlayerController : MonoBehaviour
     // Inputsystem actions zijn van https://www.youtube.com/watch?v=m5WsmlEOFiA&t=937s
     void Update()
     {
+        Image image = damageScreen.GetComponent<Image>();
+        Color color = image.color;
+
+        // Slowly turn down the red overlay
+        if (color.a > 0) {
+            color.a -= 0.004f;
+            image.color = color;
+        }
+
+        if (moveSpeed < 1) {
+            moveSpeed += 0.002f;
+        }
+
         if (SystemInfo.deviceType == DeviceType.Handheld)
         {
             float ySpeed = (float)joystick.Vertical;
@@ -128,5 +148,37 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if (target.tag == "Laser") 
+        {
+            if (!damageTaking) {
+                if (damageCount > 1) {
+                    SceneManager.LoadScene(sceneName:"SceneOver");
+                } else {
+                    Image image = damageScreen.GetComponent<Image>();
+                    Color color = image.color;
+
+                    damageCount ++;
+                    damageTaking = true;
+
+                    moveSpeed = 0f;
+
+                    // Turn the screen increasingly red
+                    color.a = damageCount * 0.5f;
+                    image.color = color;
+                }
+            }
+        } 
+    }
+
+    void OnTriggerExit2D(Collider2D target)
+    {
+        if (target.tag == "Laser")
+        {
+            damageTaking = false;
+        }
     }
 }

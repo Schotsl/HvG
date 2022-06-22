@@ -61,9 +61,9 @@ public class WebsocketManager : MonoBehaviour
             queueList.Clear();
 
             // Actually send the data too the server
-#if !UNITY_WEBGL || UNITY_EDITOR
-            Globals.websocket.DispatchMessageQueue();
-#endif
+            #if !UNITY_WEBGL || UNITY_EDITOR
+                        Globals.websocket.DispatchMessageQueue();
+            #endif
         }
     }
 
@@ -192,9 +192,9 @@ public class WebsocketManager : MonoBehaviour
         RestartListener();
     }
 
-    public void AddLaser(LaserCallback callback, string target)
+    public void AddLaser(LaserCallback callback)
     {
-        LaserListener listener = new LaserListener(callback, target);
+        LaserListener listener = new LaserListener(callback);
 
         laserListeners.Add(listener);
 
@@ -206,17 +206,14 @@ public class WebsocketManager : MonoBehaviour
         laserListeners.ForEach(
             (listener) =>
             {
-                if (listener.target == update.target)
-                {
-                    listener.callback(update.triggered);
-                }
+                listener.callback(update.target, update.triggered);
             }
         );
     }
 
-    public void RemoveLaser(LaserCallback callback, string target)
+    public void RemoveLaser(LaserCallback callback)
     {
-        LaserListener listener = new LaserListener(callback, target);
+        LaserListener listener = new LaserListener(callback);
 
         laserListeners.Remove(listener);
 

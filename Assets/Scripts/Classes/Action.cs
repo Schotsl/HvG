@@ -32,9 +32,11 @@ public class LaserUpdate : Update
 
     public string target;
 
-    public LaserUpdate()
+    public LaserUpdate(string target, bool triggered)
     {
         this.type = Type.Laser;
+        this.target = target;
+        this.triggered = triggered;
     }
 }
 
@@ -82,7 +84,7 @@ public class SubscribeUpdate : Update
 
 public delegate void ClueCallback(string clue);
 
-public delegate void LaserCallback(bool triggered);
+public delegate void LaserCallback(string laser, bool triggered);
 
 public delegate void HostingCallback(bool success);
 
@@ -104,14 +106,11 @@ public class ClueListener
 
 public class LaserListener
 {
-    public string target;
-
     public LaserCallback callback;
 
-    public LaserListener(LaserCallback callback, string target)
+    public LaserListener(LaserCallback callback)
     {
         this.callback = callback;
-        this.target = target;
     }
 }
 
