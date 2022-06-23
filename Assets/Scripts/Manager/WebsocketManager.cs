@@ -159,7 +159,6 @@ public class WebsocketManager : MonoBehaviour
 
     public void SendWebsocket(object data)
     {
-        Debug.Log("We sending");
         queueList.Add(data);
     }
 
