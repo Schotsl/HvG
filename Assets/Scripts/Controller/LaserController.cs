@@ -34,12 +34,12 @@ public class LaserController : MonoBehaviour
 
         if (buttonName == "Button #1") {
             InstructLaser(laserList[2], false);
-            InstructLaser(laserList[5], false);
-        } else if (buttonName == "Button #2") {
-            InstructLaser(laserList[2], false);
             InstructLaser(laserList[4], false);
-        } else if (buttonName == "Button #3") {
+        } else if (buttonName == "Button #2") {
             InstructLaser(laserList[1], false);
+            InstructLaser(laserList[3], false);
+        } else if (buttonName == "Button #3") {
+            InstructLaser(laserList[0], false);
             InstructLaser(laserList[5], false);
         }
     }
