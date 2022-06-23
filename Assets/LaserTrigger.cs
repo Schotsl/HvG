@@ -15,8 +15,13 @@ public class LaserTrigger : MonoBehaviour
     public void TriggerLaserScreen()
     {
         if (isNear) {
-            FindObjectOfType<BtnClickManager>().ResetLights();
             LaserUI.SetActive(true);
+
+            BtnClickManager[] btnClickCollection = FindObjectsOfType<BtnClickManager>();
+
+            foreach (BtnClickManager btnClickManager in btnClickCollection) {
+                btnClickManager.ResetLights();
+            }
         }
     }
 
