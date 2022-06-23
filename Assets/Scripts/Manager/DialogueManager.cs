@@ -48,8 +48,6 @@ public class DialogueManager : MonoBehaviour
 
         if (secretLocked) {
             this.hasTalked = false;
-        } else {
-            this.hasTalked = true;
         }
 
         if (!this.hasTalked || !extendDialogue || secretLocked) {
