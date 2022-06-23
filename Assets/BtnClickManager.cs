@@ -12,6 +12,7 @@ public class BtnClickManager : MonoBehaviour
     }
 
     public void BtnClick() {
+        greenLight.SetActive(false);
         StartCoroutine(GreenToggle());
     }
     IEnumerator GreenToggle() {
