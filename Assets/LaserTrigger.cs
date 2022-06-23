@@ -27,7 +27,7 @@ public class LaserTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        if (target.tag == "Player") 
+        if (target.tag == "Player" && Globals.isPolice) 
         {
             canClick.SetActive(true);
             isNear = true;
@@ -36,7 +36,7 @@ public class LaserTrigger : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D target)
     {
-        if (target.tag == "Player")
+        if (target.tag == "Player" && Globals.isPolice)
         {
             canClick.SetActive(false);
             isNear = false;

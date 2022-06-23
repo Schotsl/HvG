@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneOver.unity
     guid: 2b2fc21e121629d498435bcfba26f15d
+  - enabled: 1
+    path: Assets/Scenes/SceneWin.unity
+    guid: 575a0b6996014ea42a979c1f5f013c51
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 18c95a4466bef4dbfb9f561a1e3ac452, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 9a4f669c6dd2f44848ba0ba7a371a4b7, type: 2}

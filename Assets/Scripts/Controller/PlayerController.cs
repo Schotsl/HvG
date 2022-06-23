@@ -162,6 +162,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
+        Debug.Log(target.tag);
         if (target.tag == "Ending") {
             // Set the evil car on the run
             endingVehicle.SetActive(true);
@@ -171,6 +172,8 @@ public class PlayerController : MonoBehaviour
                 otherVehicle.SetActive(false);
             });
 
+        } else if (target.tag == "Overing") {
+            SceneManager.LoadScene(sceneName:"SceneWin");
         } else if (target.tag == "Laser") 
         {
             if (!damageTaking) {

@@ -6,6 +6,8 @@ public class Globals : MonoBehaviour
     public static bool isPaused;
     public static bool isInMap;
     public static bool isHobod;
+    public static bool isEnding;
+    public static bool isPolice;
     public static bool isHosting = true;
     public static bool isDialoguing;
 

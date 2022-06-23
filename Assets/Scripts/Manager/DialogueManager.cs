@@ -46,8 +46,6 @@ public class DialogueManager : MonoBehaviour
 
         bool secretLocked = !Globals.isHobod && clueNumber == "ClueS2";
 
-        if (clueNumber == "ClueM3") Globals.isHobod = true;
-
         if (secretLocked) {
             this.hasTalked = false;
         }

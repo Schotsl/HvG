@@ -8,6 +8,7 @@ TagManager:
   - Laser
   - gameUI
   - Ending
+  - Overing
   layers:
   - Default
   - TransparentFX

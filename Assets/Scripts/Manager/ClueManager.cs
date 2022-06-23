@@ -18,6 +18,7 @@ public class ClueWrapper
 
 public class ClueManager : MonoBehaviour
 {
+
     private GameObject websocketObject;
     private WebsocketManager websocketScript;
 
@@ -28,6 +29,8 @@ public class ClueManager : MonoBehaviour
     public Animator clueNotification;
 
     public GameObject clueObject;
+    public GameObject overTrigger;
+    public GameObject endingTrigger;
 
     public TextMeshProUGUI clueName;
     public TextMeshProUGUI clueContent;
@@ -72,6 +75,13 @@ public class ClueManager : MonoBehaviour
 
     public void FoundClue(string target, bool received = false, bool notification = true)
     {
+        if (target == "ClueM3") Globals.isHobod = true;
+        if (target == "ClueM5") Globals.isPolice = true;
+        if (target == "ClueM6") {
+            overTrigger.SetActive(true);
+            endingTrigger.SetActive(true);
+        }
+
         // We'll always pass the clue along if even we've already found it
         if (!received) {
             ClueUpdate update = new ClueUpdate(target);
