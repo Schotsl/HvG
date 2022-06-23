@@ -15,8 +15,8 @@ public class CarController : MonoBehaviour
     [Header("Should the car start at the first point")]
     public bool pointsStart;
 
-    // [Header("Should the car teleport back to the first point")]
-    // public bool pointsReset;
+    [Header("Should the car end at the last point")]
+    public bool pointsEnd;
 
     private int pointsPosition;
 
@@ -54,18 +54,11 @@ public class CarController : MonoBehaviour
     private void SelectPosition()
     {
         if (pointsPosition >= pointsList.Count) {
-            pointsPosition = 0;
+            if (pointsEnd) {
+                return;
+            }
 
-            // if (pointsReset) {
-            //     // We can skip too the second point since we've already teleported there
-            //     pointsPosition = 1;
-            // 
-            //     // Teleport the car too the first point
-            //     carRigidbody.position = pointsList[0].transform.position;
-            // } else {
-            //     // I've were not teleporting back too the first point we'll set it as our target
-            //     pointsPosition = 0;
-            // }
+            pointsPosition = 0;
         }
 
         GameObject pointsTarget = pointsList[pointsPosition];
