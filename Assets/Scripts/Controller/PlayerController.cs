@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private bool damageTaking;
 
     public GameObject damageScreen;
+    public GameObject endingVehicle;
+    public List<GameObject> otherVehicles;
 
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
@@ -160,7 +162,16 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        if (target.tag == "Laser") 
+        if (target.tag == "Ending") {
+            // Set the evil car on the run
+            endingVehicle.SetActive(true);
+
+            // Disable al other cars to prevent collections
+            otherVehicles.ForEach((otherVehicle) => {
+                otherVehicle.SetActive(false);
+            });
+
+        } else if (target.tag == "Laser") 
         {
             if (!damageTaking) {
                 Image image = damageScreen.GetComponent<Image>();
