@@ -19,7 +19,7 @@ public class SceneSwitchManager : MonoBehaviour
     }
 
     public void goBack(){
-        SceneManager.LoadScene(sceneName:"SceneCity");
+        SceneManager.LoadScene(sceneName:"GameMap");
     }
     public void goToMap(){
         SceneManager.LoadScene(sceneName:"Cluemap");
