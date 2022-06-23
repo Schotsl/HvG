@@ -44,7 +44,15 @@ public class DialogueManager : MonoBehaviour
         dialogueName.text = dialogue.name;
         sentences.Clear();
 
-        if (!this.hasTalked || !extendDialogue) {
+        bool secretLocked = !Globals.isHobod && clueNumber == "ClueS2";
+
+        if (clueNumber == "ClueM3") Globals.isHobod = true;
+
+        if (secretLocked) {
+            this.hasTalked = false;
+        }
+
+        if (!this.hasTalked || !extendDialogue || secretLocked) {
             
             foreach (string sentence in dialogue.sentences)
             {
