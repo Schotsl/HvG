@@ -17,7 +17,6 @@ public class CamManager : MonoBehaviour
     private void Awake() {
         playerInputActions = new PlayerInputActions();
         Globals.isInMap = false;
-
     }
 
     private void OnEnable() {
@@ -31,10 +30,10 @@ public class CamManager : MonoBehaviour
     public void cameraToggle(){
         Globals.isInMap = !Globals.isInMap;
 
-        UpdateCamera(Globals.isInMap);
+        UpdateCamera();
     }
 
-    public void UpdateCamera(bool inMap){
+    public void UpdateCamera() {
         cam1.SetActive(!Globals.isInMap);
         cam2.SetActive(Globals.isInMap);
         pling.Play();
@@ -42,7 +41,7 @@ public class CamManager : MonoBehaviour
         if (SystemInfo.deviceType == DeviceType.Handheld) {
             mobileUI.SetActive(!Globals.isInMap);
         }
-
+        Debug.Log(Globals.isInMap);
         FindObjectOfType<ClueManager>().EndDialogue();
         clueMapContainer.GetComponent<UnityEngine.EventSystems.BaseRaycaster>().enabled = Globals.isInMap;    
         

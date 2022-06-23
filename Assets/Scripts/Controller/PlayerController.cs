@@ -162,7 +162,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        Debug.Log(target.tag);
         if (target.tag == "Ending") {
             // Set the evil car on the run
             endingVehicle.SetActive(true);
